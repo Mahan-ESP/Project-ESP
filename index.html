@@ -3,28 +3,1914 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>MAHANIAN OS</title>
+<meta name="viewport"
+      content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#07111f">
+<title>VORTEX OS | Robot Control</title>
+
 <style>
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #07111f;
+  --panel: #102438;
+  --line: #24536b;
+  --cyan: #60e6ff;
+  --text: #e5f6ff;
+  --muted: #91afc2;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
-  background: #071421;
-  color: #66eaff;
-  font-family: Tahoma, sans-serif;
+  background:
+    radial-gradient(circle at top left,
+      #16415b, transparent 45%),
+    var(--bg);
+  color: var(--text);
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 5%;
+  border-bottom: 1px solid var(--line);
+}
+
+.logo {
+  color: var(--cyan);
+  font: bold 30px Arial, sans-serif;
+  letter-spacing: 3px;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+.badge {
+  border: 1px solid #8e7145;
+  color: #ffcb82;
+  padding: 9px;
+  border-radius: 30px;
+  font-size: 12px;
+}
+
+main {
+  max-width: 1400px;
+  margin: auto;
+  padding: 18px;
   display: grid;
-  place-items: center;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 16px;
+}
+
+.panel {
+  background: #102438e8;
+  border: 1px solid var(--line);
+  border-radius: 19px;
+  padding: 17px;
+  min-width: 0;
+  box-shadow: 0 10px 35px #0004;
+}
+
+.label {
+  color: var(--cyan);
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+h2 {
+  font-size: 17px;
+  margin: 9px 0 17px;
+}
+
+.camera {
+  height: 290px;
+  border: 1px solid #2c6077;
+  border-radius: 15px;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 28px,
+      #67dfff0a 29px
+    ),
+    linear-gradient(145deg, #102e42, #050e1a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+}
+
+.camera-icon {
+  font-size: 55px;
+  color: var(--cyan);
+}
+
+.offline {
+  position: absolute;
+  top: 13px;
+  right: 13px;
+  color: #ffbf76;
+  border: 1px solid #795a3e;
+  padding: 7px;
+  border-radius: 8px;
+  font-size: 11px;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+  margin-top: 12px;
+}
+
+.metric {
+  background: #091b2b;
+  border: 1px solid #24465c;
+  border-radius: 12px;
+  padding: 13px;
+}
+
+.metric small {
+  display: block;
+  color: var(--muted);
+  margin-bottom: 9px;
+}
+
+.metric strong {
+  font-size: 19px;
+}
+
+.warning {
+  color: #ffc27b;
+}
+
+.controls {
+  direction: ltr;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 10px;
+  min-height: 270px;
+}
+
+.control-group {
+  direction: rtl;
   text-align: center;
 }
-h1 { font-size: 36px; }
-p { color: white; }
+
+.control-group p {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.pad {
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.move {
+  width: 100%;
+  max-width: 135px;
+  height: 82px;
+  border: 1px solid #4294ac;
+  border-radius: 15px;
+  color: #d8faff;
+  background:
+    linear-gradient(150deg, #17465f, #0a2639);
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.move.active {
+  background: #12849b;
+  border-color: #8df2ff;
+  box-shadow: 0 0 25px #29d6ff66;
+}
+
+.stop {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background:
+    linear-gradient(145deg, #a22d45, #491521);
+  border: 2px solid #ff637b;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+  box-shadow: 0 0 25px #ff315033;
+}
+
+.command {
+  padding: 12px;
+  background: #091b2b;
+  border-radius: 10px;
+  color: var(--cyan);
+  font-size: 12px;
+  line-height: 1.9;
+  margin-top: 15px;
+}
+
+.bottom {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.radar {
+  height: 210px;
+  border-radius: 14px;
+  border: 1px solid #286077;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    repeating-radial-gradient(
+      circle,
+      transparent 0 38px,
+      #2c9caf55 39px 40px
+    ),
+    #071a29;
+}
+
+.radar-screen {
+  width: 170px;
+  height: 170px;
+  border: 1px solid #39a7bb;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+.sweep {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  left: 0;
+  top: 0;
+  transform-origin: bottom right;
+  background:
+    linear-gradient(45deg,
+      transparent, #36f6de66);
+  animation: rotate 4s linear infinite;
+}
+
+@keyframes rotate {
+  to { transform: rotate(360deg); }
+}
+
+.radar-text {
+  position: relative;
+  text-align: center;
+  padding-top: 72px;
+  font-size: 11px;
+  color: #a6d2dc;
+}
+
+.module {
+  padding: 13px;
+  background: #091b2b;
+  border: 1px solid #24465c;
+  border-radius: 11px;
+  margin-top: 10px;
+}
+
+.module span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.module b {
+  display: block;
+  margin-top: 7px;
+}
+
+footer {
+  text-align: center;
+  color: #7898ad;
+  font-size: 11px;
+  padding: 20px;
+}
+
+@media (max-width: 850px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+
+  .camera {
+    height: 240px;
+  }
+}
+
+@media (max-width: 480px) {
+  main {
+    padding: 11px;
+    gap: 12px;
+  }
+
+  .panel {
+    padding: 13px;
+  }
+
+  .logo {
+    font-size: 23px;
+  }
+
+  .metrics {
+    gap: 6px;
+  }
+
+  .metric {
+    padding: 10px 7px;
+  }
+
+  .metric strong {
+    font-size: 15px;
+  }
+
+  .controls {
+    gap: 6px;
+  }
+
+  .move {
+    height: 75px;
+  }
+
+  .stop {
+    width: 78px;
+    height: 78px;
+    font-size: 13px;
+  }
+
+  .bottom {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (orientation: landscape)
+       and (max-height: 550px) {
+  main {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .camera {
+    height: 195px;
+  }
+
+  .controls {
+    min-height: 200px;
+  }
+
+  .move {
+    height: 65px;
+  }
+}
 </style>
 </head>
+
 <body>
+
+<header>
+  <div>
+    <div class="logo" dir="ltr">VORTEX OS</div>
+    <div class="subtitle">
+      ROBOTICS CONTROL PLATFORM
+    </div>
+  </div>
+
+  <div class="badge">● DEMO MODE</div>
+</header>
+
 <main>
-<h1>MAHANIAN OS 🤖</h1>
-<p>سیستم کنترل ربات ماهانیان</p>
-<p>نسخه آزمایشی 0.1</p>
+
+<section class="panel">
+  <div class="label">VISION SYSTEM</div>
+  <h2>دوربین ربات</h2>
+
+  <div class="camera">
+    <div class="offline">● OFFLINE</div>
+
+    <div>
+      <div class="camera-icon">◎</div>
+      <h3>دوربین متصل نیست</h3>
+      <p class="muted">
+        تصویر زنده ESP32-CAM
+      </p>
+    </div>
+  </div>
+
+  <div class="metrics">
+    <div class="metric">
+      <small>باتری</small>
+      <strong>— V</strong>
+    </div>
+
+    <div class="metric">
+      <small>دما</small>
+      <strong>— °C</strong>
+    </div>
+
+    <div class="metric">
+      <small>ارتباط</small>
+      <strong class="warning">قطع</strong>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="label">DRIVE CONSOLE</div>
+  <h2>کنترل حرکت</h2>
+
+  <div class="controls">
+
+    <div class="control-group">
+      <p>گاز و دنده‌عقب</p>
+
+      <div class="pad">
+        <button class="move"
+                data-action="forward">
+          ▲<br>جلو
+        </button>
+
+        <button class="move"
+                data-action="reverse">
+          عقب<br>▼
+        </button>
+      </div>
+    </div>
+
+    <button class="stop" id="stop">
+      STOP<br>توقف
+    </button>
+
+    <div class="control-group">
+      <p>فرمان</p>
+
+      <div class="pad">
+        <button class="move"
+                data-action="left">
+          ◀<br>چپ
+        </button>
+
+        <button class="move"
+                data-action="right">
+          راست<br>▶
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="command" id="command">
+    فرمان: توقف | حالت نمایشی
+  </div>
+</section>
+
+<div class="bottom">
+
+  <section class="panel">
+    <div class="label">ULTRASONIC RADAR</div>
+    <h2>رادار محیط</h2>
+
+    <div class="radar">
+      <div class="radar-screen">
+        <div class="sweep"></div>
+
+        <div class="radar-text">
+          در انتظار سنسور
+        </div>
+      </div>
+    </div>
+
+    <p class="muted">
+      انیمیشن رادار نمایشی است.
+    </p>
+  </section>
+
+  <section class="panel">
+    <div class="label">SYSTEM MODULES</div>
+    <h2>وضعیت ماژول‌ها</h2>
+
+    <div class="module">
+      <span>کنترل‌کننده ESP32</span>
+      <b class="warning">متصل نیست</b>
+    </div>
+
+    <div class="module">
+      <span>دوربین ESP32-CAM</span>
+      <b class="warning">متصل نیست</b>
+    </div>
+
+    <div class="module">
+      <span>سنسورهای دما و حرکت</span>
+      <b class="warning">در انتظار اتصال</b>
+    </div>
+  </section>
+
+</div>
+
 </main>
+
+<footer>
+  VORTEX OS · VERSION 0.1 · DEMONSTRATION
+</footer>
+
+<script>
+const held = new Set();
+
+const labels = {
+  forward: "جلو",
+  reverse: "عقب",
+  left: "چپ",
+  right: "راست"
+};
+
+const status =
+  document.getElementById("command");
+
+function updateStatus() {
+  const actions = [...held].map(
+    action => labels[action]
+  );
+
+  status.textContent =
+    "فرمان نمایشی: " +
+    (actions.length
+      ? actions.join(" + ")
+      : "توقف") +
+    " | ربات متصل نیست";
+}
+
+function stopAll() {
+  held.clear();
+
+  document.querySelectorAll(".active")
+    .forEach(button => {
+      button.classList.remove("active");
+    });
+
+  updateStatus();
+}
+
+document.querySelectorAll(
+  "[data-action]"
+).forEach(button => {
+
+  const action = button.dataset.action;
+
+  button.addEventListener(
+    "pointerdown",
+    event => {
+      event.preventDefault();
+
+      button.setPointerCapture(
+        event.pointerId
+      );
+
+      held.add(action);
+      button.classList.add("active");
+
+      updateStatus();
+    }
+  );
+
+  [
+    "pointerup",
+    "pointercancel",
+    "lostpointercapture"
+  ].forEach(type => {
+
+    button.addEventListener(type, () => {
+      held.delete(action);
+
+      button.classList.remove(
+        "active"
+      );
+
+      updateStatus();
+    });
+
+  });
+
+});
+
+document.getElementById("stop")
+  .addEventListener("click", stopAll);
+
+window.addEventListener(
+  "blur",
+  stopAll
+);
+
+document.addEventListener(
+  "visibilitychange",
+  () => {
+    if (document.hidden) {
+      stopAll();
+    }
+  }
+);
+</script>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#07111f">
+<title>VORTEX OS | Robot Control</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #07111f;
+  --panel: #102438;
+  --line: #24536b;
+  --cyan: #60e6ff;
+  --text: #e5f6ff;
+  --muted: #91afc2;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left,
+      #16415b, transparent 45%),
+    var(--bg);
+  color: var(--text);
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 5%;
+  border-bottom: 1px solid var(--line);
+}
+
+.logo {
+  color: var(--cyan);
+  font: bold 30px Arial, sans-serif;
+  letter-spacing: 3px;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+.badge {
+  border: 1px solid #8e7145;
+  color: #ffcb82;
+  padding: 9px;
+  border-radius: 30px;
+  font-size: 12px;
+}
+
+main {
+  max-width: 1400px;
+  margin: auto;
+  padding: 18px;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 16px;
+}
+
+.panel {
+  background: #102438e8;
+  border: 1px solid var(--line);
+  border-radius: 19px;
+  padding: 17px;
+  min-width: 0;
+  box-shadow: 0 10px 35px #0004;
+}
+
+.label {
+  color: var(--cyan);
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+h2 {
+  font-size: 17px;
+  margin: 9px 0 17px;
+}
+
+.camera {
+  height: 290px;
+  border: 1px solid #2c6077;
+  border-radius: 15px;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 28px,
+      #67dfff0a 29px
+    ),
+    linear-gradient(145deg, #102e42, #050e1a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+}
+
+.camera-icon {
+  font-size: 55px;
+  color: var(--cyan);
+}
+
+.offline {
+  position: absolute;
+  top: 13px;
+  right: 13px;
+  color: #ffbf76;
+  border: 1px solid #795a3e;
+  padding: 7px;
+  border-radius: 8px;
+  font-size: 11px;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+  margin-top: 12px;
+}
+
+.metric {
+  background: #091b2b;
+  border: 1px solid #24465c;
+  border-radius: 12px;
+  padding: 13px;
+}
+
+.metric small {
+  display: block;
+  color: var(--muted);
+  margin-bottom: 9px;
+}
+
+.metric strong {
+  font-size: 19px;
+}
+
+.warning {
+  color: #ffc27b;
+}
+
+.controls {
+  direction: ltr;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 10px;
+  min-height: 270px;
+}
+
+.control-group {
+  direction: rtl;
+  text-align: center;
+}
+
+.control-group p {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.pad {
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.move {
+  width: 100%;
+  max-width: 135px;
+  height: 82px;
+  border: 1px solid #4294ac;
+  border-radius: 15px;
+  color: #d8faff;
+  background:
+    linear-gradient(150deg, #17465f, #0a2639);
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.move.active {
+  background: #12849b;
+  border-color: #8df2ff;
+  box-shadow: 0 0 25px #29d6ff66;
+}
+
+.stop {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background:
+    linear-gradient(145deg, #a22d45, #491521);
+  border: 2px solid #ff637b;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+  box-shadow: 0 0 25px #ff315033;
+}
+
+.command {
+  padding: 12px;
+  background: #091b2b;
+  border-radius: 10px;
+  color: var(--cyan);
+  font-size: 12px;
+  line-height: 1.9;
+  margin-top: 15px;
+}
+
+.bottom {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.radar {
+  height: 210px;
+  border-radius: 14px;
+  border: 1px solid #286077;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    repeating-radial-gradient(
+      circle,
+      transparent 0 38px,
+      #2c9caf55 39px 40px
+    ),
+    #071a29;
+}
+
+.radar-screen {
+  width: 170px;
+  height: 170px;
+  border: 1px solid #39a7bb;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+.sweep {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  left: 0;
+  top: 0;
+  transform-origin: bottom right;
+  background:
+    linear-gradient(45deg,
+      transparent, #36f6de66);
+  animation: rotate 4s linear infinite;
+}
+
+@keyframes rotate {
+  to { transform: rotate(360deg); }
+}
+
+.radar-text {
+  position: relative;
+  text-align: center;
+  padding-top: 72px;
+  font-size: 11px;
+  color: #a6d2dc;
+}
+
+.module {
+  padding: 13px;
+  background: #091b2b;
+  border: 1px solid #24465c;
+  border-radius: 11px;
+  margin-top: 10px;
+}
+
+.module span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.module b {
+  display: block;
+  margin-top: 7px;
+}
+
+footer {
+  text-align: center;
+  color: #7898ad;
+  font-size: 11px;
+  padding: 20px;
+}
+
+@media (max-width: 850px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+
+  .camera {
+    height: 240px;
+  }
+}
+
+@media (max-width: 480px) {
+  main {
+    padding: 11px;
+    gap: 12px;
+  }
+
+  .panel {
+    padding: 13px;
+  }
+
+  .logo {
+    font-size: 23px;
+  }
+
+  .metrics {
+    gap: 6px;
+  }
+
+  .metric {
+    padding: 10px 7px;
+  }
+
+  .metric strong {
+    font-size: 15px;
+  }
+
+  .controls {
+    gap: 6px;
+  }
+
+  .move {
+    height: 75px;
+  }
+
+  .stop {
+    width: 78px;
+    height: 78px;
+    font-size: 13px;
+  }
+
+  .bottom {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (orientation: landscape)
+       and (max-height: 550px) {
+  main {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .camera {
+    height: 195px;
+  }
+
+  .controls {
+    min-height: 200px;
+  }
+
+  .move {
+    height: 65px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div>
+    <div class="logo" dir="ltr">VORTEX OS</div>
+    <div class="subtitle">
+      ROBOTICS CONTROL PLATFORM
+    </div>
+  </div>
+
+  <div class="badge">● DEMO MODE</div>
+</header>
+
+<main>
+
+<section class="panel">
+  <div class="label">VISION SYSTEM</div>
+  <h2>دوربین ربات</h2>
+
+  <div class="camera">
+    <div class="offline">● OFFLINE</div>
+
+    <div>
+      <div class="camera-icon">◎</div>
+      <h3>دوربین متصل نیست</h3>
+      <p class="muted">
+        تصویر زنده ESP32-CAM
+      </p>
+    </div>
+  </div>
+
+  <div class="metrics">
+    <div class="metric">
+      <small>باتری</small>
+      <strong>— V</strong>
+    </div>
+
+    <div class="metric">
+      <small>دما</small>
+      <strong>— °C</strong>
+    </div>
+
+    <div class="metric">
+      <small>ارتباط</small>
+      <strong class="warning">قطع</strong>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="label">DRIVE CONSOLE</div>
+  <h2>کنترل حرکت</h2>
+
+  <div class="controls">
+
+    <div class="control-group">
+      <p>گاز و دنده‌عقب</p>
+
+      <div class="pad">
+        <button class="move"
+                data-action="forward">
+          ▲<br>جلو
+        </button>
+
+        <button class="move"
+                data-action="reverse">
+          عقب<br>▼
+        </button>
+      </div>
+    </div>
+
+    <button class="stop" id="stop">
+      STOP<br>توقف
+    </button>
+
+    <div class="control-group">
+      <p>فرمان</p>
+
+      <div class="pad">
+        <button class="move"
+                data-action="left">
+          ◀<br>چپ
+        </button>
+
+        <button class="move"
+                data-action="right">
+          راست<br>▶
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="command" id="command">
+    فرمان: توقف | حالت نمایشی
+  </div>
+</section>
+
+<div class="bottom">
+
+  <section class="panel">
+    <div class="label">ULTRASONIC RADAR</div>
+    <h2>رادار محیط</h2>
+
+    <div class="radar">
+      <div class="radar-screen">
+        <div class="sweep"></div>
+
+        <div class="radar-text">
+          در انتظار سنسور
+        </div>
+      </div>
+    </div>
+
+    <p class="muted">
+      انیمیشن رادار نمایشی است.
+    </p>
+  </section>
+
+  <section class="panel">
+    <div class="label">SYSTEM MODULES</div>
+    <h2>وضعیت ماژول‌ها</h2>
+
+    <div class="module">
+      <span>کنترل‌کننده ESP32</span>
+      <b class="warning">متصل نیست</b>
+    </div>
+
+    <div class="module">
+      <span>دوربین ESP32-CAM</span>
+      <b class="warning">متصل نیست</b>
+    </div>
+
+    <div class="module">
+      <span>سنسورهای دما و حرکت</span>
+      <b class="warning">در انتظار اتصال</b>
+    </div>
+  </section>
+
+</div>
+
+</main>
+
+<footer>
+  VORTEX OS · VERSION 0.1 · DEMONSTRATION
+</footer>
+
+<script>
+const held = new Set();
+
+const labels = {
+  forward: "جلو",
+  reverse: "عقب",
+  left: "چپ",
+  right: "راست"
+};
+
+const status =
+  document.getElementById("command");
+
+function updateStatus() {
+  const actions = [...held].map(
+    action => labels[action]
+  );
+
+  status.textContent =
+    "فرمان نمایشی: " +
+    (actions.length
+      ? actions.join(" + ")
+      : "توقف") +
+    " | ربات متصل نیست";
+}
+
+function stopAll() {
+  held.clear();
+
+  document.querySelectorAll(".active")
+    .forEach(button => {
+      button.classList.remove("active");
+    });
+
+  updateStatus();
+}
+
+document.querySelectorAll(
+  "[data-action]"
+).forEach(button => {
+
+  const action = button.dataset.action;
+
+  button.addEventListener(
+    "pointerdown",
+    event => {
+      event.preventDefault();
+
+      button.setPointerCapture(
+        event.pointerId
+      );
+
+      held.add(action);
+      button.classList.add("active");
+
+      updateStatus();
+    }
+  );
+
+  [
+    "pointerup",
+    "pointercancel",
+    "lostpointercapture"
+  ].forEach(type => {
+
+    button.addEventListener(type, () => {
+      held.delete(action);
+
+      button.classList.remove(
+        "active"
+      );
+
+      updateStatus();
+    
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#07111f">
+<title>VORTEX OS | Robot Control</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #07111f;
+  --panel: #102438;
+  --line: #24536b;
+  --cyan: #60e6ff;
+  --text: #e5f6ff;
+  --muted: #91afc2;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left,
+      #16415b, transparent 45%),
+    var(--bg);
+  color: var(--text);
+  font-family: Tahoma, Arial, sans-serif;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 5%;
+  border-bottom: 1px solid var(--line);
+}
+
+.logo {
+  color: var(--cyan);
+  font: bold 30px Arial, sans-serif;
+  letter-spacing: 3px;
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 5px;
+}
+
+.badge {
+  border: 1px solid #8e7145;
+  color: #ffcb82;
+  padding: 9px;
+  border-radius: 30px;
+  font-size: 12px;
+}
+
+main {
+  max-width: 1400px;
+  margin: auto;
+  padding: 18px;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 16px;
+}
+
+.panel {
+  background: #102438e8;
+  border: 1px solid var(--line);
+  border-radius: 19px;
+  padding: 17px;
+  min-width: 0;
+  box-shadow: 0 10px 35px #0004;
+}
+
+.label {
+  color: var(--cyan);
+  font-size: 11px;
+  letter-spacing: 2px;
+}
+
+h2 {
+  font-size: 17px;
+  margin: 9px 0 17px;
+}
+
+.camera {
+  height: 290px;
+  border: 1px solid #2c6077;
+  border-radius: 15px;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent 0 28px,
+      #67dfff0a 29px
+    ),
+    linear-gradient(145deg, #102e42, #050e1a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+}
+
+.camera-icon {
+  font-size: 55px;
+  color: var(--cyan);
+}
+
+.offline {
+  position: absolute;
+  top: 13px;
+  right: 13px;
+  color: #ffbf76;
+  border: 1px solid #795a3e;
+  padding: 7px;
+  border-radius: 8px;
+  font-size: 11px;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+  margin-top: 12px;
+}
+
+.metric {
+  background: #091b2b;
+  border: 1px solid #24465c;
+  border-radius: 12px;
+  padding: 13px;
+}
+
+.metric small {
+  display: block;
+  color: var(--muted);
+  margin-bottom: 9px;
+}
+
+.metric strong {
+  font-size: 19px;
+}
+
+.warning {
+  color: #ffc27b;
+}
+
+.controls {
+  direction: ltr;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  gap: 10px;
+  min-height: 270px;
+}
+
+.control-group {
+  direction: rtl;
+  text-align: center;
+}
+
+.control-group p {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.pad {
+  display: grid;
+  gap: 12px;
+  justify-items: center;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.move {
+  width: 100%;
+  max-width: 135px;
+  height: 82px;
+  border: 1px solid #4294ac;
+  border-radius: 15px;
+  color: #d8faff;
+  background:
+    linear-gradient(150deg, #17465f, #0a2639);
+  font-size: 17px;
+  font-weight: bold;
+}
+
+.move.active {
+  background: #12849b;
+  border-color: #8df2ff;
+  box-shadow: 0 0 25px #29d6ff66;
+}
+
+.stop {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background:
+    linear-gradient(145deg, #a22d45, #491521);
+  border: 2px solid #ff637b;
+  color: white;
+  font-size: 17px;
+  font-weight: bold;
+  box-shadow: 0 0 25px #ff315033;
+}
+
+.command {
+  padding: 12px;
+  background: #091b2b;
+  border-radius: 10px;
+  color: var(--cyan);
+  font-size: 12px;
+  line-height: 1.9;
+  margin-top: 15px;
+}
+
+.bottom {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.radar {
+  height: 210px;
+  border-radius: 14px;
+  border: 1px solid #286077;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    repeating-radial-gradient(
+      circle,
+      transparent 0 38px,
+      #2c9caf55 39px 40px
+    ),
+    #071a29;
+}
+
+.radar-screen {
+  width: 170px;
+  height: 170px;
+  border: 1px solid #39a7bb;
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+.sweep {
+  position: absolute;
+  width: 50%;
+  height: 50%;
+  left: 0;
+  top: 0;
+  transform-origin: bottom right;
+  background:
+    linear-gradient(45deg,
+      transparent, #36f6de66);
+  animation: rotate 4s linear infinite;
+}
+
+@keyframes rotate {
+  to { transform: rotate(360deg); }
+}
+
+.radar-text {
+  position: relative;
+  text-align: center;
+  padding-top: 72px;
+  font-size: 11px;
+  color: #a6d2dc;
+}
+
+.module {
+  padding: 13px;
+  background: #091b2b;
+  border: 1px solid #24465c;
+  border-radius: 11px;
+  margin-top: 10px;
+}
+
+.module span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.module b {
+  display: block;
+  margin-top: 7px;
+}
+
+footer {
+  text-align: center;
+  color: #7898ad;
+  font-size: 11px;
+  padding: 20px;
+}
+
+@media (max-width: 850px) {
+  main {
+    grid-template-columns: 1fr;
+  }
+
+  .camera {
+    height: 240px;
+  }
+}
+
+@media (max-width: 480px) {
+  main {
+    padding: 11px;
+    gap: 12px;
+  }
+
+  .panel {
+    padding: 13px;
+  }
+
+  .logo {
+    font-size: 23px;
+  }
+
+  .metrics {
+    gap: 6px;
+  }
+
+  .metric {
+    padding: 10px 7px;
+  }
+
+  .metric strong {
+    font-size: 15px;
+  }
+
+  .controls {
+    gap: 6px;
+  }
+
+  .move {
+    height: 75px;
+  }
+
+  .stop {
+    width: 78px;
+    height: 78px;
+    font-size: 13px;
+  }
+
+  .bottom {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (orientation: landscape)
+       and (max-height: 550px) {
+  main {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .camera {
+    height: 195px;
+  }
+
+  .controls {
+    min-height: 200px;
+  }
+
+  .move {
+    height: 65px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div>
+    <div class="logo" dir="ltr">VORTEX OS</div>
+    <div class="subtitle">
+      ROBOTICS CONTROL PLATFORM
+    </div>
+  </div>
+
+  <div class="badge">● DEMO MODE</div>
+</header>
+
+<main>
+
+<section class="panel">
+  <div class="label">VISION SYSTEM</div>
+  <h2>دوربین ربات</h2>
+
+  <div class="camera">
+    <div class="offline">● OFFLINE</div>
+
+    <div>
+      <div class="camera-icon">◎</div>
+      <h3>دوربین متصل نیست</h3>
+      <p class="muted">
+        تصویر زنده ESP32-CAM
+      </p>
+    </div>
+  </div>
+
+  <div class="metrics">
+    <div class="metric">
+      <small>باتری</small>
+      <strong>— V</strong>
+    </div>
+
+    <div class="metric">
+      <small>دما</small>
+      <strong>— °C</strong>
+    </div>
+
+    <div class="metric">
+      <small>ارتباط</small>
+      <strong class="warning">قطع</strong>
+    </div>
+  </div>
+</section>
+
+<section class="panel">
+  <div class="label">DRIVE CONSOLE</div>
+  <h2>کنترل حرکت</h2>
+
+  <div class="controls">
+
+    <div class="control-group">
+      <p>گاز و دنده‌عقب</p>
+
+      <div class="pad">
+        <button class="move"
+                data-action="forward">
+          ▲<br>جلو
+        </button>
+
+        <button class="move"
+                data-action="reverse">
+          عقب<br>▼
+        </button>
+      </div>
+    </div>
+
+    <button class="stop" id="stop">
+      STOP<br>توقف
+    </button>
+
+    <div class="control-group">
+      <p>فرمان</p>
+
+      <div class="pad">
+        <button class="move"
+                data-action="left">
+          ◀<br>چپ
+        </button>
+
+        <button class="move"
+                data-action="right">
+          راست<br>▶
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="command" id="command">
+    فرمان: توقف | حالت نمایشی
+  </div>
+</section>
+
+<div class="bottom">
+
+  <section class="panel">
+    <div class="label">ULTRASONIC RADAR</div>
+    <h2>رادار محیط</h2>
+
+    <div class="radar">
+      <div class="radar-screen">
+        <div class="sweep"></div>
+
+        <div class="radar-text">
+          در انتظار سنسور
+        </div>
+      </div>
+    </div>
+
+    <p class="muted">
+      انیمیشن رادار نمایشی است.
+    </p>
+  </section>
+
+  <section class="panel">
+    <div class="label">SYSTEM MODULES</div>
+    <h2>وضعیت ماژول‌ها</h2>
+
+    <div class="module">
+      <span>کنترل‌کننده ESP32</span>
+      <b class="warning">متصل نیست</b>
+    </div>
+
+    <div class="module">
+      <span>دوربین ESP32-CAM</span>
+      <b class="warning">متصل نیست</b>
+    </div>
+
+    <div class="module">
+      <span>سنسورهای دما و حرکت</span>
+      <b class="warning">در انتظار اتصال</b>
+    </div>
+  </section>
+
+</div>
+
+</main>
+
+<footer>
+  VORTEX OS · VERSION 0.1 · DEMONSTRATION
+</footer>
+
+<script>
+const held = new Set();
+
+const labels = {
+  forward: "جلو",
+  reverse: "عقب",
+  left: "چپ",
+  right: "راست"
+};
+
+const status =
+  document.getElementById("command");
+
+function updateStatus() {
+  const actions = [...held].map(
+    action => labels[action]
+  );
+
+  status.textContent =
+    "فرمان نمایشی: " +
+    (actions.length
+      ? actions.join(" + ")
+      : "توقف") +
+    " | ربات متصل نیست";
+}
+
+function stopAll() {
+  held.clear();
+
+  document.querySelectorAll(".active")
+    .forEach(button => {
+      button.classList.remove("active");
+    });
+
+  updateStatus();
+}
+
+document.querySelectorAll(
+  "[data-action]"
+).forEach(button => {
+
+  const action = button.dataset.action;
+
+  button.addEventListener(
+    "pointerdown",
+    event => {
+      event.preventDefault();
+
+      button.setPointerCapture(
+        event.pointerId
+      );
+
+      held.add(action);
+      button.classList.add("active");
+
+      updateStatus();
+    }
+  );
+
+  [
+    "pointerup",
+    "pointercancel",
+    "lostpointercapture"
+  ].forEach(type => {
+
+    button.addEventListener(type, () => {
+      held.delete(action);
+
+      button.classList.remove(
+        "active"
+      );
+
+      updateStatus();
+    });
+
+  });
+
+});
+
+document.getElementById("stop")
+  .addEventListener("click", stopAll);
+
+window.addEventListener(
+  "blur",
+  stopAll
+);
+
+document.addEventListener(
+  "visibilitychange",
+  () => {
+    if (document.hidden) {
+      stopAll();
+    }
+  }
+);
+</script>
+
+</body>
+</html>
+});
+
+  });
+
+});
+
+document.getElementById("stop")
+  .addEventListener("click", stopAll);
+
+window.addEventListener(
+  "blur",
+  stopAll
+);
+
+document.addEventListener(
+  "visibilitychange",
+  () => {
+    if (document.hidden) {
+      stopAll();
+    }
+  }
+);
+</script>
+
 </body>
 </html>
