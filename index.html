@@ -1,24 +1,25 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#05070b">
-<title>VORTEX OS — Command Center</title>
+<title>VORTEX OS</title>
 
 <style>
 :root{
   --bg:#05070b;
   --panel:#0b1018;
-  --panel2:#0f1621;
-  --line:#1c2a3a;
-  --text:#edf4ff;
-  --muted:#8392a6;
-  --cyan:#35e7ff;
-  --green:#42f59b;
-  --red:#ff5368;
-  --yellow:#ffd65a;
-  --shadow:0 18px 55px #0009;
+  --panel2:#101722;
+  --border:#1c2938;
+  --text:#f2f7ff;
+  --muted:#8391a3;
+  --cyan:#2ee6ff;
+  --green:#36ef9a;
+  --red:#ff5268;
+  --yellow:#ffd45c;
+  --purple:#9b7cff;
+  --shadow:0 18px 50px rgba(0,0,0,.45);
 }
 
 *{
@@ -29,12 +30,12 @@
 html,body{
   margin:0;
   min-height:100%;
-  background:
-    radial-gradient(circle at 50% -10%,#102032 0,#05070b 45%);
+  background:var(--bg);
   color:var(--text);
   font-family:
     system-ui,
     -apple-system,
+    BlinkMacSystemFont,
     "Segoe UI",
     Tahoma,
     sans-serif;
@@ -48,91 +49,568 @@ button{
   font:inherit;
 }
 
+button:active{
+  transform:scale(.96);
+}
+
+.hidden{
+  display:none!important;
+}
+
+/* ================= APP ================= */
+
 .app{
+  width:100%;
   min-height:100vh;
   padding:12px;
-  max-width:1500px;
+  max-width:1250px;
   margin:auto;
 }
 
 /* ================= HEADER ================= */
 
-.top{
-  height:58px;
+.header{
+  height:62px;
   display:flex;
   align-items:center;
-  gap:10px;
+  gap:9px;
   margin-bottom:12px;
 }
 
-.brand{
+.logo{
   margin-left:auto;
 }
 
-.brand b{
-  font-size:22px;
-  letter-spacing:2px;
-}
-
-.brand small{
+.logo strong{
   display:block;
-  color:var(--muted);
-  font-size:10px;
-  margin-top:-2px;
+  font-size:24px;
+  letter-spacing:4px;
 }
 
-.iconbtn,
-.action{
-  border:1px solid var(--line);
-  background:#0c121b;
-  color:var(--text);
-  border-radius:14px;
-  min-width:46px;
+.logo small{
+  color:var(--muted);
+  font-size:9px;
+  letter-spacing:1px;
+}
+
+.header-btn{
+  width:44px;
   height:44px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background:linear-gradient(145deg,#101824,#080d14);
+  color:white;
+  cursor:pointer;
   display:grid;
   place-items:center;
-  cursor:pointer;
-  box-shadow:0 8px 25px #0005;
+  box-shadow:0 8px 25px #0007;
 }
 
-.iconbtn:active,
-.action:active,
-.move:active{
-  transform:scale(.96);
-}
-
-.status{
-  font-size:11px;
-  color:var(--green);
-  border:1px solid #194d3a;
-  background:#0a1712;
+.connection{
   padding:8px 10px;
   border-radius:999px;
+  font-size:10px;
+  color:var(--green);
+  border:1px solid #164c38;
+  background:#071610;
 }
 
-/* ================= MAIN ================= */
+/* ================= PAGES ================= */
 
-.layout{
+.page{
+  display:none;
+  animation:pageIn .22s ease;
+}
+
+.page.active{
+  display:block;
+}
+
+@keyframes pageIn{
+  from{
+    opacity:0;
+    transform:translateY(5px);
+  }
+  to{
+    opacity:1;
+    transform:none;
+  }
+}
+
+/* ================= CARDS ================= */
+
+.card{
+  background:
+    linear-gradient(145deg,
+      rgba(15,22,32,.98),
+      rgba(7,11,17,.98)
+    );
+  border:1px solid var(--border);
+  border-radius:22px;
+  box-shadow:var(--shadow);
+}
+
+.card-title{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:15px 16px;
+}
+
+.card-title h2,
+.card-title h3{
+  margin:0;
+  font-size:14px;
+}
+
+.card-title span{
+  color:var(--muted);
+  font-size:10px;
+}
+
+/* ================= HOME ================= */
+
+.home-grid{
   display:grid;
-  grid-template-columns:minmax(0,1.7fr) minmax(280px,.9fr);
+  grid-template-columns:1.1fr .9fr;
   gap:12px;
 }
 
-.card{
-  background:linear-gradient(145deg,#0c121a,#080d14);
-  border:1px solid var(--line);
-  border-radius:22px;
-  box-shadow:var(--shadow);
-  overflow:hidden;
+.robot-card{
+  padding:20px;
+  min-height:245px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
 }
 
-/* ================= CAMERA ================= */
+.robot-head{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
 
-.camera{
-  position:relative;
-  min-height:440px;
+.robot-name{
+  font-size:12px;
+  color:var(--muted);
+}
+
+.robot-state{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:11px;
+}
+
+.state-dot{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:var(--red);
+  box-shadow:0 0 15px var(--red);
+}
+
+.robot-card.on .state-dot{
+  background:var(--green);
+  box-shadow:0 0 15px var(--green);
+}
+
+.power-btn{
+  width:128px;
+  height:128px;
+  border-radius:50%;
+  margin:auto;
+  border:1px solid #253448;
+  background:
+    radial-gradient(circle at 35% 30%,#1a2838,#070b11 65%);
+  color:#aab8c9;
   cursor:pointer;
-  background:#020407;
+  box-shadow:
+    inset 0 0 30px #000,
+    0 0 35px #000;
+  font-size:30px;
+  transition:.25s;
+}
+
+.power-btn small{
+  display:block;
+  margin-top:8px;
+  font-size:10px;
+  color:var(--muted);
+}
+
+.robot-card.on .power-btn{
+  color:var(--green);
+  border-color:#267453;
+  box-shadow:
+    inset 0 0 30px #07160f,
+    0 0 30px #1ed77d33;
+}
+
+/* ================= STATUS ================= */
+
+.status-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  padding:0 12px 12px;
+}
+
+.status-item{
+  min-height:78px;
+  border:1px solid var(--border);
+  border-radius:16px;
+  background:#09101a;
+  padding:11px;
+  cursor:pointer;
+  transition:.18s;
+}
+
+.status-item:hover{
+  border-color:#29425a;
+}
+
+.status-icon{
+  font-size:18px;
+}
+
+.status-item small{
+  display:block;
+  color:var(--muted);
+  font-size:9px;
+  margin-top:5px;
+}
+
+.status-item b{
+  display:block;
+  font-size:12px;
+  margin-top:3px;
+}
+
+.green{
+  color:var(--green);
+}
+
+.red{
+  color:var(--red);
+}
+
+.yellow{
+  color:var(--yellow);
+}
+
+.cyan{
+  color:var(--cyan);
+}
+
+/* ================= CONTROL PREVIEW ================= */
+
+.quick-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:9px;
+  padding:0 12px 12px;
+}
+
+.quick{
+  min-height:70px;
+  border:1px solid var(--border);
+  border-radius:16px;
+  background:#09101a;
+  color:white;
+  cursor:pointer;
+  padding:8px;
+}
+
+.quick span{
+  display:block;
+  font-size:18px;
+}
+
+.quick small{
+  display:block;
+  color:var(--muted);
+  font-size:9px;
+  margin-top:5px;
+}
+
+/* ================= BIG CONTROL BUTTON ================= */
+
+.open-control{
+  width:100%;
+  min-height:78px;
+  border:1px solid #24536a;
+  border-radius:19px;
+  background:
+    linear-gradient(
+      135deg,
+      #0b2733,
+      #071017
+    );
+  color:white;
+  cursor:pointer;
+  margin-top:12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px;
+  box-shadow:0 0 35px #1ce4ff0c;
+}
+
+.open-control strong{
+  display:block;
+  color:var(--cyan);
+  font-size:15px;
+}
+
+.open-control small{
+  display:block;
+  color:var(--muted);
+  margin-top:5px;
+  font-size:10px;
+}
+
+.open-control b{
+  font-size:28px;
+}
+
+/* ================= CONTROL PAGE ================= */
+
+.control-layout{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.movement-card{
+  min-height:430px;
+  padding:18px;
+  display:flex;
+  flex-direction:column;
+}
+
+.movement-area{
+  flex:1;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.dpad{
+  direction:ltr;
+  display:grid;
+  grid-template-columns:70px 70px 70px;
+  grid-template-rows:70px 70px 70px;
+  gap:9px;
+}
+
+.move{
+  border:1px solid #25384b;
+  background:
+    linear-gradient(145deg,#121d29,#080e15);
+  color:white;
+  border-radius:19px;
+  font-size:25px;
+  cursor:pointer;
+  box-shadow:0 10px 25px #0007;
+}
+
+.move.up{
+  grid-column:2;
+}
+
+.move.left{
+  grid-column:1;
+  grid-row:2;
+}
+
+.move.stop{
+  grid-column:2;
+  grid-row:2;
+  color:var(--red);
+  border-color:#632635;
+}
+
+.move.right{
+  grid-column:3;
+  grid-row:2;
+}
+
+.move.down{
+  grid-column:2;
+  grid-row:3;
+}
+
+/* ================= CAMERA NECK ================= */
+
+.neck{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+  margin-top:12px;
+}
+
+.neck button{
+  height:46px;
+  border:1px solid var(--border);
+  background:#09101a;
+  color:white;
+  border-radius:14px;
+  cursor:pointer;
+}
+
+.neck button:nth-child(2){
+  grid-column:2;
+}
+
+/* ================= CONTROL OPTIONS ================= */
+
+.options{
+  padding:15px;
+  display:grid;
+  gap:10px;
+}
+
+.option{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  min-height:58px;
+  padding:10px 12px;
+  border:1px solid var(--border);
+  border-radius:15px;
+  background:#09101a;
+}
+
+.option-info{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.option-icon{
+  width:36px;
+  height:36px;
+  border-radius:11px;
+  display:grid;
+  place-items:center;
+  background:#111b27;
+}
+
+.option-info small{
+  display:block;
+  color:var(--muted);
+  font-size:9px;
+}
+
+.option-info b{
+  display:block;
+  font-size:12px;
+  margin-top:2px;
+}
+
+/* ================= SWITCH ================= */
+
+.switch{
+  position:relative;
+  width:48px;
+  height:28px;
+  flex:none;
+}
+
+.switch input{
+  display:none;
+}
+
+.slider{
+  position:absolute;
+  inset:0;
+  border-radius:30px;
+  background:#17202b;
+  border:1px solid #263546;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.slider:before{
+  content:"";
+  position:absolute;
+  width:20px;
+  height:20px;
+  top:3px;
+  right:4px;
+  border-radius:50%;
+  background:#718094;
+  transition:.2s;
+}
+
+.switch input:checked + .slider{
+  background:#0c4937;
+  border-color:#267b5c;
+}
+
+.switch input:checked + .slider:before{
+  transform:translateX(-19px);
+  background:var(--green);
+}
+
+/* ================= SLIDER ================= */
+
+.speed-box{
+  padding:15px;
+}
+
+.speed-head{
+  display:flex;
+  justify-content:space-between;
+  font-size:11px;
+  margin-bottom:10px;
+}
+
+.speed-head span{
+  color:var(--muted);
+}
+
+input[type=range]{
+  width:100%;
+  accent-color:var(--cyan);
+}
+
+/* ================= BEEP / AUTO ================= */
+
+.action-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
+
+.action-btn{
+  min-height:62px;
+  border:1px solid var(--border);
+  border-radius:16px;
+  background:#09101a;
+  color:white;
+  cursor:pointer;
+}
+
+.action-btn.active{
+  border-color:#2a725a;
+  background:#0a1d16;
+  color:var(--green);
+}
+
+/* ================= CAMERA PAGE ================= */
+
+.camera-page{
+  position:relative;
+  width:100%;
+  height:calc(100vh - 86px);
+  min-height:500px;
+  overflow:hidden;
+  border-radius:24px;
+  background:#020406;
+  border:1px solid var(--border);
 }
 
 .camera-bg{
@@ -140,177 +618,136 @@ button{
   inset:0;
   background:
     radial-gradient(
-      circle at 50% 42%,
-      #172638 0,
-      #071019 30%,
-      #020407 70%
+      ellipse at center,
+      #182a3b 0,
+      #09131e 32%,
+      #020406 75%
     );
 }
 
-.scan{
+.camera-grid{
   position:absolute;
   inset:0;
+  opacity:.18;
   background:
-    linear-gradient(
-      transparent 49%,
-      #35e7ff18 50%,
-      transparent 51%
-    );
-  background-size:100% 9px;
-  opacity:.28;
-  pointer-events:none;
+    linear-gradient(#35e7ff18 1px,transparent 1px),
+    linear-gradient(90deg,#35e7ff18 1px,transparent 1px);
+  background-size:45px 45px;
 }
 
-.camera-center{
+.camera-scan{
+  position:absolute;
+  left:0;
+  right:0;
+  height:2px;
+  top:0;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    var(--cyan),
+    transparent
+  );
+  opacity:.5;
+  animation:scan 4s linear infinite;
+}
+
+@keyframes scan{
+  from{top:0}
+  to{top:100%}
+}
+
+.camera-message{
   position:absolute;
   inset:0;
   display:grid;
   place-items:center;
-  color:#6c8097;
-  font-size:13px;
+  color:#718197;
+  font-size:12px;
 }
 
-.cam-label{
+.camera-top{
   position:absolute;
   top:12px;
   left:12px;
-  background:#020407bb;
-  border:1px solid #26384b;
-  padding:7px 10px;
-  border-radius:10px;
-  font-size:11px;
+  right:12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
   z-index:5;
 }
 
-.cam-full{
-  position:absolute;
-  top:12px;
-  right:12px;
-  background:#020407cc;
-  border:1px solid #26384b;
-  color:#fff;
+.camera-top span{
+  background:#020508bb;
+  border:1px solid #26384a;
+  border-radius:11px;
   padding:8px 10px;
-  border-radius:10px;
-  font-size:12px;
-  z-index:20;
+  font-size:10px;
+}
+
+.camera-top button{
+  width:42px;
+  height:42px;
+  border:1px solid #26384a;
+  background:#020508bb;
+  color:white;
+  border-radius:13px;
   cursor:pointer;
 }
 
-/* ================= CAMERA CONTROLS ================= */
-
+/* Camera controls */
 .camera-controls{
   position:absolute;
-  bottom:14px;
-  left:14px;
-  right:14px;
-
-  display:flex;
-  align-items:end;
-  justify-content:space-between;
-
-  direction:ltr;
-
-  z-index:25;
-
+  inset:0;
+  z-index:10;
   pointer-events:none;
 }
 
-.camera-controls>*{
+.camera-dpad{
+  position:absolute;
+  bottom:22px;
+  left:22px;
+  direction:ltr;
+}
+
+.camera-dpad .dpad{
+  transform:scale(.85);
+  transform-origin:bottom left;
+}
+
+.camera-neck{
+  position:absolute;
+  bottom:25px;
+  right:25px;
+  display:grid;
+  grid-template-columns:48px 48px 48px;
+  gap:7px;
+  direction:ltr;
+}
+
+.camera-neck button{
+  width:48px;
+  height:48px;
+  border:1px solid #ffffff2c;
+  background:#07111ccc;
+  backdrop-filter:blur(12px);
+  color:white;
+  border-radius:14px;
+  cursor:pointer;
   pointer-events:auto;
 }
 
-.pad{
-  display:grid;
-  grid-template-columns:repeat(3,50px);
-  grid-template-rows:repeat(2,50px);
-  gap:7px;
-}
-
-.move{
-  border:1px solid #ffffff24;
-  background:#08111dcc;
-  color:white;
-  border-radius:15px;
-  font-size:20px;
-  backdrop-filter:blur(10px);
-  cursor:pointer;
-}
-
-.move:nth-child(1){
+.camera-neck button:nth-child(2){
   grid-column:2;
 }
 
-.stop{
-  width:105px;
-  height:50px;
-  border-radius:15px;
-  border:1px solid #7e2635;
-  background:#351019dd;
-  color:#ff9aa7;
-  font-weight:800;
-  cursor:pointer;
-}
-
-/* ================= SIDE ================= */
-
-.side{
-  display:grid;
-  gap:12px;
-}
-
-.section{
-  padding:15px;
-}
-
-.section h3{
-  font-size:13px;
-  margin:0 0 12px;
-}
-
-.tele{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-}
-
-.metric{
-  padding:11px;
-  border:1px solid var(--line);
-  background:#09101a;
-  border-radius:14px;
-}
-
-.metric span{
-  display:block;
-  color:var(--muted);
-  font-size:10px;
-}
-
-.metric b{
-  display:block;
-  margin-top:4px;
-  font-size:16px;
-}
-
-.hint{
-  font-size:10px;
-  color:var(--muted);
-  margin-top:9px;
-}
-
-/* ================= RADAR ================= */
-
-.radar{
-  height:280px;
-  position:relative;
-  background:#050a10;
-  border-top:1px solid var(--line);
-}
-
-#radar{
-  width:100%;
-  height:100%;
-  display:block;
+.camera-hint{
+  position:absolute;
+  bottom:12px;
+  left:50%;
+  transform:translateX(-50%);
+  color:#8190a2;
+  font-size:9px;
+  white-space:nowrap;
 }
 
 /* ================= DRAWER ================= */
@@ -319,18 +756,15 @@ button{
   position:fixed;
   inset:0;
   z-index:1000;
-
-  visibility:hidden;
+  background:#0009;
   opacity:0;
-
+  visibility:hidden;
   transition:.2s;
-
-  background:#0008;
 }
 
 .drawer.open{
-  visibility:visible;
   opacity:1;
+  visibility:visible;
 }
 
 .drawer-panel{
@@ -338,196 +772,175 @@ button{
   top:0;
   bottom:0;
   right:0;
-
-  width:min(88vw,380px);
-
-  background:#080e16;
-
-  border-left:1px solid var(--line);
-
+  width:min(88vw,390px);
+  background:#080d14;
+  border-left:1px solid var(--border);
   padding:18px;
-
   transform:translateX(100%);
-
   transition:.25s;
-
-  box-shadow:-20px 0 60px #000b;
+  box-shadow:-25px 0 60px #000b;
+  overflow-y:auto;
 }
 
 .drawer.open .drawer-panel{
   transform:translateX(0);
 }
 
-.drawer-head{
+.drawer-title{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  margin-bottom:15px;
+  margin-bottom:18px;
 }
 
-.drawer-row{
+.drawer-title strong{
+  letter-spacing:1px;
+}
+
+.drawer-close{
+  width:40px;
+  height:40px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  background:#0d141d;
+  color:white;
+  cursor:pointer;
+}
+
+.drawer-item{
+  min-height:60px;
+  border-bottom:1px solid #162230;
   display:flex;
+  align-items:center;
   justify-content:space-between;
   gap:10px;
-
-  padding:13px 4px;
-
-  border-bottom:1px solid #162332;
-
-  font-size:13px;
 }
 
-.drawer-row span{
+.drawer-item span{
   color:var(--muted);
+  font-size:11px;
 }
 
-/* ================= CAMERA FULLSCREEN ================= */
-
-.fullscreen-camera{
-  position:fixed !important;
-
-  z-index:900 !important;
-
-  inset:0 !important;
-
-  width:100vw !important;
-  height:100dvh !important;
-
-  min-height:100dvh !important;
-
-  border-radius:0 !important;
-
-  margin:0 !important;
+.drawer-item b{
+  font-size:12px;
 }
 
-.fullscreen-camera .camera-bg{
-  position:absolute;
-  inset:0;
+/* ================= RADAR ================= */
+
+.radar-wrap{
+  padding:12px;
 }
 
-.fullscreen-camera .camera-controls{
-  position:absolute;
-  bottom:20px;
-  left:20px;
-  right:20px;
+#radar{
+  display:block;
+  width:100%;
+  height:250px;
+  background:#050a10;
+  border-radius:18px;
 }
 
 /* ================= LANDSCAPE ================= */
 
-.landscape .layout{
-  grid-template-columns:
-    minmax(0,1.65fr)
-    minmax(300px,.8fr);
-}
-
-/* ================= TABLET ================= */
-
-@media(max-width:850px){
-
-  .layout{
-    grid-template-columns:1fr;
-  }
-
-  .camera{
-    min-height:58vh;
-  }
-
-  .side{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .side .card:first-child{
-    grid-column:1/-1;
-  }
-}
-
-/* ================= PHONE ================= */
-
-@media(max-width:600px){
+@media(max-width:900px) and (orientation:landscape){
 
   .app{
     padding:8px;
   }
 
-  .top{
-    height:52px;
-  }
-
-  .brand b{
-    font-size:19px;
-  }
-
-  .status{
-    display:none;
-  }
-
-  .camera{
-    min-height:55vh;
-    border-radius:18px;
-  }
-
-  .side{
-    grid-template-columns:1fr;
-  }
-
-  .side .card:first-child{
-    grid-column:auto;
-  }
-
-  .pad{
-    grid-template-columns:repeat(3,46px);
-    grid-template-rows:repeat(2,46px);
-  }
-
-  .move{
-    font-size:18px;
-  }
-
-  .stop{
-    width:90px;
-    height:46px;
-  }
-
-  .radar{
-    height:250px;
-  }
-}
-
-/* ================= PHONE LANDSCAPE ================= */
-
-@media(max-width:850px) and (orientation:landscape){
-
-  .app{
-    padding:8px;
-  }
-
-  .top{
+  .header{
     height:45px;
     margin-bottom:8px;
   }
 
-  .layout{
-    grid-template-columns:
-      minmax(0,1.7fr)
-      minmax(250px,.8fr);
-
-    gap:8px;
+  .logo strong{
+    font-size:19px;
   }
 
-  .camera{
-    min-height:calc(100dvh - 61px);
+  .home-grid{
+    grid-template-columns:1fr 1fr;
   }
 
-  .radar{
-    height:190px;
+  .robot-card{
+    min-height:200px;
   }
 
-  .section{
-    padding:10px;
+  .power-btn{
+    width:95px;
+    height:95px;
   }
 
-  .metric{
+  .control-layout{
+    grid-template-columns:1.1fr .9fr;
+  }
+
+  .movement-card{
+    min-height:calc(100vh - 70px);
+  }
+
+  .camera-page{
+    height:calc(100vh - 61px);
+    min-height:300px;
+    border-radius:18px;
+  }
+
+  .connection{
+    display:none;
+  }
+}
+
+/* ================= MOBILE PORTRAIT ================= */
+
+@media(max-width:650px){
+
+  .app{
     padding:8px;
+  }
+
+  .header{
+    height:52px;
+  }
+
+  .logo strong{
+    font-size:20px;
+  }
+
+  .connection{
+    display:none;
+  }
+
+  .home-grid{
+    grid-template-columns:1fr;
+  }
+
+  .robot-card{
+    min-height:260px;
+  }
+
+  .control-layout{
+    grid-template-columns:1fr;
+  }
+
+  .movement-card{
+    min-height:390px;
+  }
+
+  .camera-page{
+    height:calc(100vh - 74px);
+    min-height:430px;
+  }
+
+  .camera-neck{
+    right:14px;
+    bottom:18px;
+  }
+
+  .camera-dpad{
+    left:8px;
+    bottom:10px;
+  }
+
+  .camera-hint{
+    display:none;
   }
 }
 </style>
@@ -535,978 +948,312 @@ button{
 
 <body>
 
-<div class="app" id="app">
+<div class="app">
 
-<header class="top">
+<header class="header">
 
-  <div class="brand">
-    <b>VORTEX</b>
-    <small>ROBOT COMMAND CENTER • v0.4</small>
+  <div class="logo">
+    <strong>VORTEX</strong>
+    <small>ROBOT CONTROL SYSTEM</small>
   </div>
 
-  <span class="status">
-    ● DEMO LINK
-  </span>
+  <div class="connection">
+    ● DEMO
+  </div>
 
-  <button
-    class="iconbtn"
-    id="rotateBtn"
-    type="button"
-    title="Landscape">
+  <button class="header-btn" id="orientationBtn" title="حالت افقی">
     ↔
   </button>
 
-  <button
-    class="iconbtn"
-    id="menuBtn"
-    type="button"
-    title="Menu">
+  <button class="header-btn" id="menuBtn" title="منو">
     ⋮
   </button>
 
 </header>
 
 
-<main class="layout">
+<!-- ======================================================
+     HOME PAGE
+====================================================== -->
 
-<!-- ================= CAMERA ================= -->
+<section class="page active" id="homePage">
 
-<section
-  class="card camera"
-  id="camera">
+  <div class="home-grid">
 
-  <div class="camera-bg"></div>
+    <!-- ROBOT -->
 
-  <div class="scan"></div>
+    <div class="card robot-card" id="robotCard">
 
-  <div class="camera-center">
-    CAMERA OFFLINE • ESP32-CAM
-  </div>
+      <div class="robot-head">
 
-  <div class="cam-label">
-    CAM 01 • 720P
-  </div>
+        <div>
+          <div class="robot-name">VORTEX ROBOT</div>
+          <div style="font-size:20px;font-weight:800;margin-top:4px">
+            وضعیت ربات
+          </div>
+        </div>
 
-  <button
-    class="cam-full"
-    id="camFull"
-    type="button">
-    ⛶ تمام صفحه
-  </button>
+        <div class="robot-state">
+          <span class="state-dot"></span>
+          <span id="robotStateText">خاموش</span>
+        </div>
+
+      </div>
 
 
-  <!-- CAMERA CONTROLS -->
-
-  <div class="camera-controls">
-
-    <div class="pad">
-
-      <button
-        class="move"
-        data-move="forward"
-        type="button">
-        ▲
-      </button>
-
-      <button
-        class="move"
-        data-move="left"
-        type="button">
-        ◀
-      </button>
-
-      <button
-        class="move"
-        data-move="back"
-        type="button">
-        ▼
-      </button>
-
-      <button
-        class="move"
-        data-move="right"
-        type="button">
-        ▶
+      <button class="power-btn" id="powerBtn">
+        ⏻
+        <small>روشن / خاموش</small>
       </button>
 
     </div>
 
-    <button
-      class="stop"
-      id="stopBtn"
-      type="button">
-      ■ STOP
-    </button>
+
+    <!-- STATUS -->
+
+    <div class="card">
+
+      <div class="card-title">
+        <h3>وضعیت سیستم</h3>
+        <span>LIVE</span>
+      </div>
+
+      <div class="status-grid">
+
+        <button class="status-item" id="tempCard">
+          <span class="status-icon">🌡️</span>
+          <small>دما</small>
+          <b class="cyan" id="tempValue">31°C</b>
+        </button>
+
+        <button class="status-item">
+          <span class="status-icon">⚙️</span>
+          <small>موتور</small>
+          <b id="motorStatus">خاموش</b>
+        </button>
+
+        <button class="status-item">
+          <span class="status-icon">🔋</span>
+          <small>شارژ</small>
+          <b class="green" id="batteryValue">82%</b>
+        </button>
+
+        <button class="status-item">
+          <span class="status-icon">🔌</span>
+          <small>وضعیت شارژ</small>
+          <b id="chargingValue">متصل نیست</b>
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- LIGHT / FAN / CAMERA -->
+
+    <div class="card">
+
+      <div class="card-title">
+        <h3>امکانات ربات</h3>
+        <span>MODULES</span>
+      </div>
+
+      <div class="quick-grid">
+
+        <button class="quick toggle-quick" data-target="led">
+          <span>💡</span>
+          <small>چراغ LED</small>
+        </button>
+
+        <button class="quick toggle-quick" data-target="fan">
+          <span>🌀</span>
+          <small>فن خنک‌کننده</small>
+        </button>
+
+        <button class="quick" id="calibrateHome">
+          <span>📷</span>
+          <small>کالیبره دوربین</small>
+        </button>
+
+        <button class="quick toggle-quick" data-target="camLight">
+          <span>🔦</span>
+          <small>چراغ دوربین</small>
+        </button>
+
+        <button class="quick toggle-quick" data-target="night">
+          <span>🌙</span>
+          <small>دید در شب</small>
+        </button>
+
+        <button class="quick">
+          <span>📡</span>
+          <small>ارتباط</small>
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- CONTROL -->
+
+    <div>
+
+      <div class="card" style="padding:12px">
+
+        <button class="open-control" id="openControl">
+
+          <div>
+            <strong>صفحه کنترل</strong>
+            <small>کنترل کامل حرکت و امکانات ربات</small>
+          </div>
+
+          <b>→</b>
+
+        </button>
+
+      </div>
+
+    </div>
 
   </div>
 
 </section>
 
 
-<!-- ================= SIDE ================= -->
+<!-- ======================================================
+     CONTROL PAGE
+====================================================== -->
 
-<aside class="side">
+<section class="page" id="controlPage">
 
-  <!-- TELEMETRY -->
+  <div class="control-layout">
 
-  <section class="card section">
+    <!-- MOVEMENT -->
 
-    <h3>
-      LIVE TELEMETRY
-    </h3>
+    <div class="card movement-card">
 
-    <div class="tele">
-
-      <div class="metric">
-        <span>سرعت</span>
-        <b id="speed">0%</b>
+      <div class="card-title" style="padding:0">
+        <h3>کنترل حرکت</h3>
+        <span id="speedText">سرعت 50%</span>
       </div>
 
-      <div class="metric">
-        <span>باتری</span>
-        <b id="battery">82%</b>
+      <div class="movement-area">
+
+        <div class="dpad">
+
+          <button class="move up" data-command="forward">▲</button>
+          <button class="move left" data-command="left">◀</button>
+          <button class="move stop" data-command="stop">■</button>
+          <button class="move right" data-command="right">▶</button>
+          <button class="move down" data-command="back">▼</button>
+
+        </div>
+
       </div>
 
-      <div class="metric">
-        <span>دما</span>
-        <b id="temp">31°C</b>
+
+      <!-- CAMERA NECK -->
+
+      <div class="card-title" style="padding:0 0 8px">
+        <h3>گردن دوربین</h3>
+        <span id="cameraAngle">0°</span>
       </div>
 
-      <div class="metric">
-        <span>فاصله</span>
-        <b id="distance">148 cm</b>
-      </div>
+      <div class="neck">
 
-    </div>
+        <button data-neck="left">←</button>
+        <button data-neck="center">●</button>
+        <button data-neck="right">→</button>
 
-    <div class="hint">
-      داده‌ها فعلاً نمایشی هستند؛ اتصال ESP32 در مرحله بعد.
-    </div>
-
-  </section>
-
-
-  <!-- RADAR -->
-
-  <section class="card">
-
-    <div class="section">
-      <h3>
-        RADAR
-      </h3>
-    </div>
-
-    <div class="radar">
-      <canvas id="radar"></canvas>
-    </div>
-
-  </section>
-
-
-  <!-- SYSTEM -->
-
-  <section class="card section">
-
-    <h3>
-      SYSTEM
-    </h3>
-
-    <div class="tele">
-
-      <div class="metric">
-        <span>Wi-Fi</span>
-        <b>READY</b>
-      </div>
-
-      <div class="metric">
-        <span>Camera</span>
-        <b>OFFLINE</b>
       </div>
 
     </div>
 
-  </section>
 
-</aside>
+    <!-- OPTIONS -->
 
-</main>
+    <div class="card">
 
-</div>
+      <div class="card-title">
+        <h3>کنترل‌های سریع</h3>
+        <span>CONTROL</span>
+      </div>
 
+      <div class="options">
 
-<!-- ================= DRAWER ================= -->
+        <!-- BEEP -->
 
-<div
-  class="drawer"
-  id="drawer"
-  aria-hidden="true">
+        <div class="action-row">
 
-  <div
-    class="drawer-panel"
-    id="drawerPanel">
+          <button class="action-btn" id="beepBtn">
+            🔊
+            <br>
+            <small>بوق</small>
+          </button>
 
-    <div class="drawer-head">
+          <button class="action-btn" id="autoBtn">
+            🤖
+            <br>
+            <small>حالت خودکار</small>
+          </button>
 
-      <b>
-        اطلاعات VORTEX
-      </b>
+        </div>
 
-      <button
-        class="iconbtn"
-        id="closeMenu"
-        type="button">
-        ×
-      </button>
 
-    </div>
+        <!-- SPEED -->
 
+        <div class="speed-box">
 
-    <div class="drawer-row">
-      <span>وضعیت کنترل</span>
-      <b>Demo</b>
-    </div>
+          <div class="speed-head">
+            <b>سرعت موتور</b>
+            <span id="speedNumber">50%</span>
+          </div>
 
-    <div class="drawer-row">
-      <span>اتصال</span>
-      <b>Waiting for ESP32</b>
-    </div>
+          <input
+            id="speedSlider"
+            type="range"
+            min="0"
+            max="100"
+            value="50"
+          >
 
-    <div class="drawer-row">
-      <span>فرکانس PWM</span>
-      <b>1000 Hz</b>
-    </div>
+        </div>
 
-    <div class="drawer-row">
-      <span>حالت حرکت</span>
-      <b>Tank Drive</b>
-    </div>
 
-    <div class="drawer-row">
-      <span>رادار</span>
-      <b>Ultrasonic</b>
-    </div>
+        <!-- DISTANCE SENSOR -->
 
-    <div class="drawer-row">
-      <span>نسخه رابط</span>
-      <b>0.4</b>
-    </div>
+        <div class="option">
 
-  </div>
+          <div class="option-info">
 
-</div>
+            <div class="option-icon">
+              📡
+            </div>
 
+            <div>
+              <b>سنسور فاصله</b>
+              <small>Ultrasonic</small>
+            </div>
 
-<script>
+          </div>
 
-(function(){
+          <label class="switch">
+            <input id="distanceSwitch" type="checkbox" checked>
+            <span class="slider"></span>
+          </label>
 
-"use strict";
+        </div>
 
 
-/* ================= ELEMENTS ================= */
+        <!-- LED -->
 
-const app =
-  document.getElementById("app");
+        <div class="option">
 
-const camera =
-  document.getElementById("camera");
+          <div class="option-info">
 
-const drawer =
-  document.getElementById("drawer");
+            <div class="option-icon">
+              💡
+            </div>
 
-const menuBtn =
-  document.getElementById("menuBtn");
-
-const closeMenu =
-  document.getElementById("closeMenu");
-
-const rotateBtn =
-  document.getElementById("rotateBtn");
-
-const camFull =
-  document.getElementById("camFull");
-
-const stopBtn =
-  document.getElementById("stopBtn");
-
-const speed =
-  document.getElementById("speed");
-
-
-/* ================= MENU ================= */
-
-function openMenu(){
-
-  drawer.classList.add("open");
-
-  drawer.setAttribute(
-    "aria-hidden",
-    "false"
-  );
-
-}
-
-
-function closeMenuFn(){
-
-  drawer.classList.remove("open");
-
-  drawer.setAttribute(
-    "aria-hidden",
-    "true"
-  );
-
-}
-
-
-menuBtn.addEventListener(
-  "click",
-  function(e){
-
-    e.stopPropagation();
-
-    openMenu();
-
-  }
-);
-
-
-closeMenu.addEventListener(
-  "click",
-  closeMenuFn
-);
-
-
-drawer.addEventListener(
-  "click",
-  function(e){
-
-    if(e.target === drawer){
-
-      closeMenuFn();
-
-    }
-
-  }
-);
-
-
-/* ================= LANDSCAPE ================= */
-
-function updateOrientationClass(){
-
-  const isLandscape =
-    window.innerWidth >
-    window.innerHeight;
-
-  app.classList.toggle(
-    "landscape",
-    isLandscape
-  );
-
-}
-
-
-window.addEventListener(
-  "resize",
-  updateOrientationClass
-);
-
-
-window.addEventListener(
-  "orientationchange",
-  function(){
-
-    setTimeout(
-      updateOrientationClass,
-      200
-    );
-
-  }
-);
-
-
-updateOrientationClass();
-
-
-rotateBtn.addEventListener(
-  "click",
-  async function(){
-
-    /*
-      اول تلاش می‌کنیم
-      صفحه واقعاً Landscape شود.
-    */
-
-    try{
-
-      if(
-        screen.orientation &&
-        screen.orientation.lock
-      ){
-
-        await screen.orientation.lock(
-          "landscape"
-        );
-
-      }
-
-    }catch(error){
-
-      /*
-        بعضی مرورگرهای موبایل
-        اجازه lock کردن نمی‌دهند.
-        در این حالت چیزی خراب نمی‌شود.
-      */
-
-    }
-
-    /*
-      اگر مرورگر اجازه داد
-      Fullscreen را هم امتحان می‌کنیم.
-    */
-
-    try{
-
-      if(
-        document.documentElement.requestFullscreen &&
-        !document.fullscreenElement
-      ){
-
-        await document.documentElement.requestFullscreen();
-
-      }
-
-    }catch(error){}
-
-    setTimeout(
-      updateOrientationClass,
-      300
-    );
-
-  }
-);
-
-
-/* ================= CAMERA FULLSCREEN ================= */
-
-function setCameraFullscreen(enabled){
-
-  if(enabled){
-
-    camera.classList.add(
-      "fullscreen-camera"
-    );
-
-    camFull.textContent =
-      "× بستن";
-
-    document.body.style.overflow =
-      "hidden";
-
-  }else{
-
-    camera.classList.remove(
-      "fullscreen-camera"
-    );
-
-    camFull.textContent =
-      "⛶ تمام صفحه";
-
-    document.body.style.overflow =
-      "";
-
-  }
-
-}
-
-
-camFull.addEventListener(
-  "click",
-  function(e){
-
-    e.stopPropagation();
-
-    const active =
-      camera.classList.contains(
-        "fullscreen-camera"
-      );
-
-    setCameraFullscreen(
-      !active
-    );
-
-  }
-);
-
-
-/*
-  لمس خود تصویر دوربین
-  هم Fullscreen داخلی را باز می‌کند.
-*/
-
-camera.addEventListener(
-  "click",
-  function(e){
-
-    if(
-      !e.target.closest("button") &&
-      !camera.classList.contains(
-        "fullscreen-camera"
-      )
-    ){
-
-      setCameraFullscreen(true);
-
-    }
-
-  }
-);
-
-
-/* ================= ESC ================= */
-
-document.addEventListener(
-  "keydown",
-  function(e){
-
-    if(e.key === "Escape"){
-
-      setCameraFullscreen(false);
-
-      closeMenuFn();
-
-    }
-
-  }
-);
-
-
-/* ================= STOP ================= */
-
-stopBtn.addEventListener(
-  "click",
-  function(){
-
-    document
-      .querySelectorAll(".move")
-      .forEach(function(button){
-
-        button.classList.remove(
-          "active"
-        );
-
-      });
-
-    speed.textContent =
-      "0%";
-
-  }
-);
-
-
-/* ================= MOVEMENT ================= */
-
-document
-  .querySelectorAll(".move")
-  .forEach(function(button){
-
-    function press(){
-
-      speed.textContent =
-        "55%";
-
-      button.classList.add(
-        "active"
-      );
-
-    }
-
-
-    function release(){
-
-      speed.textContent =
-        "0%";
-
-      button.classList.remove(
-        "active"
-      );
-
-    }
-
-
-    button.addEventListener(
-      "pointerdown",
-      press
-    );
-
-    button.addEventListener(
-      "pointerup",
-      release
-    );
-
-    button.addEventListener(
-      "pointercancel",
-      release
-    );
-
-    button.addEventListener(
-      "pointerleave",
-      release
-    );
-
-  });
-
-
-/* ================= RADAR ================= */
-
-const canvas =
-  document.getElementById("radar");
-
-const ctx =
-  canvas.getContext("2d");
-
-let radarAngle = 0;
-
-
-function resizeCanvas(){
-
-  const rect =
-    canvas.getBoundingClientRect();
-
-  const dpr =
-    window.devicePixelRatio || 1;
-
-  const width =
-    Math.max(
-      1,
-      Math.floor(
-        rect.width * dpr
-      )
-    );
-
-  const height =
-    Math.max(
-      1,
-      Math.floor(
-        rect.height * dpr
-      )
-    );
-
-
-  if(
-    canvas.width !== width ||
-    canvas.height !== height
-  ){
-
-    canvas.width =
-      width;
-
-    canvas.height =
-      height;
-
-  }
-
-}
-
-
-function drawRadar(){
-
-  resizeCanvas();
-
-  const rect =
-    canvas.getBoundingClientRect();
-
-  const W =
-    rect.width;
-
-  const H =
-    rect.height;
-
-  if(
-    W <= 0 ||
-    H <= 0
-  ){
-
-    requestAnimationFrame(
-      drawRadar
-    );
-
-    return;
-
-  }
-
-
-  const dpr =
-    window.devicePixelRatio || 1;
-
-  ctx.setTransform(
-    dpr,
-    0,
-    0,
-    dpr,
-    0,
-    0
-  );
-
-
-  ctx.clearRect(
-    0,
-    0,
-    W,
-    H
-  );
-
-
-  const cx =
-    W / 2;
-
-  const cy =
-    H - 12;
-
-  const R =
-    Math.min(
-      W * 0.43,
-      H * 0.86
-    );
-
-
-  /* GRID */
-
-  ctx.strokeStyle =
-    "rgba(53,231,255,.22)";
-
-  ctx.lineWidth =
-    1;
-
-
-  for(
-    let i = 1;
-    i <= 4;
-    i++
-  ){
-
-    ctx.beginPath();
-
-    ctx.arc(
-      cx,
-      cy,
-      R * i / 4,
-      Math.PI,
-      Math.PI * 2
-    );
-
-    ctx.stroke();
-
-  }
-
-
-  /* HORIZONTAL LINE */
-
-  ctx.beginPath();
-
-  ctx.moveTo(
-    cx - R,
-    cy
-  );
-
-  ctx.lineTo(
-    cx + R,
-    cy
-  );
-
-  ctx.stroke();
-
-
-  /* ANGLE LINES */
-
-  for(
-    let i = 0;
-    i <= 6;
-    i++
-  ){
-
-    const a =
-      Math.PI +
-      i * Math.PI / 6;
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-      cx,
-      cy
-    );
-
-    ctx.lineTo(
-      cx +
-      Math.cos(a) * R,
-
-      cy +
-      Math.sin(a) * R
-    );
-
-    ctx.stroke();
-
-  }
-
-
-  /* SCANNER */
-
-  radarAngle += 0.025;
-
-
-  const scannerAngle =
-    Math.PI + radarAngle;
-
-
-  const sx =
-    cx +
-    Math.cos(
-      scannerAngle
-    ) * R;
-
-
-  const sy =
-    cy +
-    Math.sin(
-      scannerAngle
-    ) * R;
-
-
-  const gradient =
-    ctx.createLinearGradient(
-      cx,
-      cy,
-      sx,
-      sy
-    );
-
-
-  gradient.addColorStop(
-    0,
-    "rgba(53,231,255,.55)"
-  );
-
-  gradient.addColorStop(
-    1,
-    "rgba(53,231,255,0)"
-  );
-
-
-  ctx.strokeStyle =
-    gradient;
-
-  ctx.lineWidth =
-    3;
-
-
-  ctx.beginPath();
-
-  ctx.moveTo(
-    cx,
-    cy
-  );
-
-  ctx.lineTo(
-    sx,
-    sy
-  );
-
-  ctx.stroke();
-
-
-  /* OBJECTS */
-
-  const objects = [
-
-    {
-      x:0.25,
-      y:0.30
-    },
-
-    {
-      x:0.68,
-      y:0.42
-    },
-
-    {
-      x:0.48,
-      y:0.68
-    }
-
-  ];
-
-
-  objects.forEach(
-    function(object){
-
-      const x =
-        cx +
-        (object.x - 0.5) *
-        R * 1.8;
-
-      const y =
-        cy -
-        object.y *
-        R * 1.5;
-
-
-      ctx.fillStyle =
-        "#ff5368";
-
-
-      ctx.beginPath();
-
-      ctx.arc(
-        x,
-        y,
-        4,
-        0,
-        Math.PI * 2
-      );
-
-      ctx.fill();
-
-    }
-  );
-
-
-  /* ROBOT */
-
-  ctx.fillStyle =
-    "#42f59b";
-
-
-  ctx.beginPath();
-
-  ctx.arc(
-    cx,
-    cy,
-    5,
-    0,
-    Math.PI * 2
-  );
-
-  ctx.fill();
-
-
-  requestAnimationFrame(
-    drawRadar
-  );
-
-}
-
-
-requestAnimationFrame(
-  drawRadar
-);
-
-
-/* ================= END ================= */
-
-})();
-
-</script>
-
-</body>
-      </html>
+ 
