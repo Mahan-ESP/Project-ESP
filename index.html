@@ -1,28 +1,24 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport"
-      content="width=device-width,initial-scale=1,viewport-fit=cover">
-
-<meta name="theme-color" content="#030508">
-
-<title>VORTEX OS</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#05070b">
+<title>VORTEX OS — Command Center</title>
 
 <style>
 :root{
-  --bg:#030508;
-  --panel:#080d13;
-  --glass:rgba(8,15,22,.62);
-  --line:rgba(0,240,255,.16);
-  --cyan:#00efff;
-  --cyan2:#52f6ff;
-  --purple:#9d65ff;
-  --green:#42f5ad;
-  --red:#ff466d;
-  --orange:#ffad67;
-  --text:#eafaff;
-  --muted:#78909f;
+  --bg:#05070b;
+  --panel:#0b1018;
+  --panel2:#0f1621;
+  --line:#1c2a3a;
+  --text:#edf4ff;
+  --muted:#8392a6;
+  --cyan:#35e7ff;
+  --green:#42f59b;
+  --red:#ff5368;
+  --yellow:#ffd65a;
+  --shadow:0 18px 55px #0009;
 }
 
 *{
@@ -32,11 +28,16 @@
 
 html,body{
   margin:0;
-  width:100%;
   min-height:100%;
-  background:var(--bg);
+  background:
+    radial-gradient(circle at 50% -10%,#102032 0,#05070b 45%);
   color:var(--text);
-  font-family:Tahoma,Arial,sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    "Segoe UI",
+    Tahoma,
+    sans-serif;
 }
 
 body{
@@ -45,1268 +46,1467 @@ body{
 
 button{
   font:inherit;
-  color:inherit;
-  border:0;
-  outline:0;
 }
 
-button:active{
+.app{
+  min-height:100vh;
+  padding:12px;
+  max-width:1500px;
+  margin:auto;
+}
+
+/* ================= HEADER ================= */
+
+.top{
+  height:58px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:12px;
+}
+
+.brand{
+  margin-left:auto;
+}
+
+.brand b{
+  font-size:22px;
+  letter-spacing:2px;
+}
+
+.brand small{
+  display:block;
+  color:var(--muted);
+  font-size:10px;
+  margin-top:-2px;
+}
+
+.iconbtn,
+.action{
+  border:1px solid var(--line);
+  background:#0c121b;
+  color:var(--text);
+  border-radius:14px;
+  min-width:46px;
+  height:44px;
+  display:grid;
+  place-items:center;
+  cursor:pointer;
+  box-shadow:0 8px 25px #0005;
+}
+
+.iconbtn:active,
+.action:active,
+.move:active{
   transform:scale(.96);
 }
 
-/* BACKGROUND */
-
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  pointer-events:none;
-  opacity:.35;
-  background:
-    linear-gradient(rgba(0,240,255,.025) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(0,240,255,.025) 1px,transparent 1px);
-  background-size:42px 42px;
-  mask-image:linear-gradient(#000,transparent 90%);
-}
-
-/* HEADER */
-
-header{
-  height:72px;
-  position:relative;
-  z-index:20;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-  padding:10px 18px;
-  background:rgba(3,7,11,.86);
-  border-bottom:1px solid var(--line);
-  backdrop-filter:blur(18px);
-}
-
-.logo{
-  direction:ltr;
-  font:bold 27px Arial;
-  letter-spacing:4px;
-  text-shadow:0 0 22px rgba(0,240,255,.35);
-}
-
-.logo span{
-  color:var(--cyan);
-}
-
-.version{
-  color:var(--muted);
-  font:9px Arial;
-  letter-spacing:2px;
-  margin-top:4px;
-}
-
-.header-actions{
-  display:flex;
-  align-items:center;
-  gap:7px;
-}
-
-.icon-btn{
-  width:43px;
-  height:43px;
-  border:1px solid rgba(0,240,255,.2);
-  border-radius:12px;
-  background:rgba(11,22,30,.7);
-  color:#bdeff5;
-  cursor:pointer;
-  backdrop-filter:blur(12px);
-  transition:.2s;
-}
-
-.icon-btn:hover{
-  border-color:var(--cyan);
-  box-shadow:0 0 20px rgba(0,240,255,.15);
-}
-
-.connection{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  border:1px solid rgba(255,173,103,.2);
-  border-radius:10px;
+.status{
+  font-size:11px;
+  color:var(--green);
+  border:1px solid #194d3a;
+  background:#0a1712;
   padding:8px 10px;
-  color:var(--orange);
-  font:10px Arial;
+  border-radius:999px;
 }
 
-.dot{
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:var(--orange);
-  box-shadow:0 0 9px var(--orange);
-}
+/* ================= MAIN ================= */
 
-/* MAIN */
-
-main{
-  position:relative;
-  z-index:1;
-  max-width:1600px;
-  margin:auto;
-  padding:18px;
-}
-
-.dashboard{
+.layout{
   display:grid;
-  grid-template-columns:minmax(0,1.4fr) minmax(300px,.6fr);
-  gap:15px;
+  grid-template-columns:minmax(0,1.7fr) minmax(280px,.9fr);
+  gap:12px;
 }
 
-/* CAMERA */
-
-.camera-panel{
-  min-width:0;
+.card{
+  background:linear-gradient(145deg,#0c121a,#080d14);
+  border:1px solid var(--line);
+  border-radius:22px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
 }
+
+/* ================= CAMERA ================= */
 
 .camera{
-  height:min(68vh,590px);
-  min-height:330px;
   position:relative;
-  overflow:hidden;
-  border:1px solid rgba(0,240,255,.2);
-  border-radius:18px;
-  background:
-    radial-gradient(circle at center,#0b2830,#050a0f 65%);
+  min-height:440px;
   cursor:pointer;
-  box-shadow:
-    inset 0 0 45px rgba(0,240,255,.025),
-    0 15px 50px rgba(0,0,0,.4);
+  background:#020407;
 }
 
-.camera::before{
-  content:"";
+.camera-bg{
   position:absolute;
   inset:0;
   background:
-    linear-gradient(rgba(0,240,255,.035) 1px,transparent 1px),
-    linear-gradient(90deg,rgba(0,240,255,.035) 1px,transparent 1px);
-  background-size:35px 35px;
+    radial-gradient(
+      circle at 50% 42%,
+      #172638 0,
+      #071019 30%,
+      #020407 70%
+    );
 }
 
-.camera::after{
-  content:"";
+.scan{
   position:absolute;
-  inset:-100% 0 0;
-  height:200%;
-  background:linear-gradient(
-    transparent 48%,
-    rgba(0,240,255,.06) 50%,
-    transparent 52%
-  );
-  animation:scan 7s linear infinite;
+  inset:0;
+  background:
+    linear-gradient(
+      transparent 49%,
+      #35e7ff18 50%,
+      transparent 51%
+    );
+  background-size:100% 9px;
+  opacity:.28;
   pointer-events:none;
-}
-
-@keyframes scan{
-  to{transform:translateY(50%)}
-}
-
-.camera-full-label{
-  position:absolute;
-  left:14px;
-  top:14px;
-  z-index:5;
-  padding:7px 10px;
-  border-radius:8px;
-  background:rgba(4,10,15,.65);
-  border:1px solid rgba(0,240,255,.15);
-  color:#a9dce3;
-  font:9px Arial;
-  letter-spacing:1px;
-}
-
-.camera-status{
-  position:absolute;
-  right:14px;
-  top:14px;
-  z-index:5;
-  color:#ffad9a;
-  font:9px Arial;
-  padding:7px 10px;
-  border:1px solid rgba(255,90,90,.2);
-  border-radius:8px;
-  background:rgba(30,7,10,.55);
 }
 
 .camera-center{
   position:absolute;
   inset:0;
-  z-index:2;
+  display:grid;
+  place-items:center;
+  color:#6c8097;
+  font-size:13px;
+}
+
+.cam-label{
+  position:absolute;
+  top:12px;
+  left:12px;
+  background:#020407bb;
+  border:1px solid #26384b;
+  padding:7px 10px;
+  border-radius:10px;
+  font-size:11px;
+  z-index:5;
+}
+
+.cam-full{
+  position:absolute;
+  top:12px;
+  right:12px;
+  background:#020407cc;
+  border:1px solid #26384b;
+  color:#fff;
+  padding:8px 10px;
+  border-radius:10px;
+  font-size:12px;
+  z-index:20;
+  cursor:pointer;
+}
+
+/* ================= CAMERA CONTROLS ================= */
+
+.camera-controls{
+  position:absolute;
+  bottom:14px;
+  left:14px;
+  right:14px;
+
   display:flex;
-  align-items:center;
-  justify-content:center;
-  flex-direction:column;
+  align-items:end;
+  justify-content:space-between;
+
+  direction:ltr;
+
+  z-index:25;
+
   pointer-events:none;
 }
 
-.camera-icon{
-  width:78px;
-  height:78px;
-  border-radius:50%;
-  border:1px solid rgba(0,240,255,.3);
+.camera-controls>*{
+  pointer-events:auto;
+}
+
+.pad{
   display:grid;
-  place-items:center;
-  color:var(--cyan);
-  font-size:31px;
-  box-shadow:0 0 35px rgba(0,240,255,.08);
+  grid-template-columns:repeat(3,50px);
+  grid-template-rows:repeat(2,50px);
+  gap:7px;
 }
 
-.camera-center strong{
-  margin-top:15px;
-  font:12px Arial;
-  letter-spacing:2px;
-}
-
-.camera-center small{
-  color:var(--muted);
-  margin-top:7px;
-  font-size:10px;
-}
-
-/* CORNERS */
-
-.corner{
-  position:absolute;
-  z-index:4;
-  width:28px;
-  height:28px;
-  border-color:var(--cyan);
-  opacity:.65;
-}
-
-.c1{
-  top:18px;
-  left:18px;
-  border-top:2px solid;
-  border-left:2px solid;
-}
-
-.c2{
-  top:18px;
-  right:18px;
-  border-top:2px solid;
-  border-right:2px solid;
-}
-
-.c3{
-  bottom:18px;
-  left:18px;
-  border-bottom:2px solid;
-  border-left:2px solid;
-}
-
-.c4{
-  bottom:18px;
-  right:18px;
-  border-bottom:2px solid;
-  border-right:2px solid;
-}
-
-/* TELEMETRY */
-
-.telemetry{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:8px;
-  margin-top:10px;
-}
-
-.telemetry-box{
-  padding:12px;
-  background:rgba(7,14,20,.8);
-  border:1px solid rgba(0,240,255,.11);
-  border-radius:11px;
-}
-
-.telemetry-box small{
-  display:block;
-  color:var(--muted);
-  font-size:9px;
-  margin-bottom:7px;
-}
-
-.telemetry-box strong{
-  font:16px Arial;
-}
-
-.offline{
-  color:var(--orange);
-}
-
-/* SIDE */
-
-.side{
-  display:grid;
-  gap:15px;
-  align-content:start;
-}
-
-.panel{
-  padding:16px;
-  border-radius:17px;
-  background:linear-gradient(
-    145deg,
-    rgba(10,17,24,.94),
-    rgba(5,9,14,.96)
-  );
-  border:1px solid rgba(0,240,255,.12);
-  box-shadow:0 15px 40px rgba(0,0,0,.25);
-}
-
-.panel-title{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:14px;
-}
-
-.panel-title h2{
-  margin:0;
-  font-size:14px;
-}
-
-.panel-title span{
-  color:var(--muted);
-  font:9px Arial;
-  letter-spacing:1px;
-}
-
-/* CONTROLS */
-
-.controls{
-  display:grid;
-  grid-template-columns:1fr auto 1fr;
-  align-items:center;
-  gap:10px;
-  direction:ltr;
-}
-
-.control-side{
-  direction:rtl;
-  display:grid;
-  gap:10px;
-}
-
-.control-button{
-  min-height:76px;
-  border:1px solid rgba(0,240,255,.17);
-  border-radius:13px;
-  background:linear-gradient(
-    145deg,
-    rgba(11,31,39,.9),
-    rgba(5,12,18,.9)
-  );
-  color:#b8f7ff;
+.move{
+  border:1px solid #ffffff24;
+  background:#08111dcc;
+  color:white;
+  border-radius:15px;
+  font-size:20px;
+  backdrop-filter:blur(10px);
   cursor:pointer;
-  touch-action:none;
-  user-select:none;
-  transition:.15s;
 }
 
-.control-button small{
-  display:block;
-  margin-top:6px;
-  color:#688895;
-  font:9px Arial;
-  letter-spacing:1px;
-}
-
-.control-button.active{
-  border-color:var(--cyan);
-  background:rgba(0,120,140,.35);
-  box-shadow:
-    0 0 25px rgba(0,240,255,.25),
-    inset 0 0 20px rgba(0,240,255,.08);
+.move:nth-child(1){
+  grid-column:2;
 }
 
 .stop{
-  width:92px;
-  height:92px;
-  border-radius:50%;
+  width:105px;
+  height:50px;
+  border-radius:15px;
+  border:1px solid #7e2635;
+  background:#351019dd;
+  color:#ff9aa7;
+  font-weight:800;
   cursor:pointer;
-  background:
-    radial-gradient(circle at 35% 25%,
-      #713047,
-      #260d17);
-  border:2px solid rgba(255,70,109,.85);
-  box-shadow:
-    0 0 30px rgba(255,70,109,.16),
-    0 0 0 8px rgba(255,70,109,.035);
-  font:bold 15px Arial;
 }
 
-.stop small{
+/* ================= SIDE ================= */
+
+.side{
+  display:grid;
+  gap:12px;
+}
+
+.section{
+  padding:15px;
+}
+
+.section h3{
+  font-size:13px;
+  margin:0 0 12px;
+}
+
+.tele{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.metric{
+  padding:11px;
+  border:1px solid var(--line);
+  background:#09101a;
+  border-radius:14px;
+}
+
+.metric span{
   display:block;
-  color:#ffb3c1;
-  font:8px Arial;
-  margin-top:5px;
+  color:var(--muted);
+  font-size:10px;
 }
 
-/* RADAR */
+.metric b{
+  display:block;
+  margin-top:4px;
+  font-size:16px;
+}
+
+.hint{
+  font-size:10px;
+  color:var(--muted);
+  margin-top:9px;
+}
+
+/* ================= RADAR ================= */
 
 .radar{
-  height:220px;
-  border-radius:14px;
-  border:1px solid rgba(0,240,255,.14);
-  background:#061016;
+  height:280px;
   position:relative;
-  overflow:hidden;
-  display:grid;
-  place-items:center;
+  background:#050a10;
+  border-top:1px solid var(--line);
 }
 
-.radar-circle{
-  width:170px;
-  height:170px;
-  border:1px solid #15515b;
-  border-radius:50%;
-  position:relative;
-  background:
-    radial-gradient(circle,
-      transparent 0 31px,
-      #12434c 32px 33px,
-      transparent 34px 61px,
-      #12434c 62px 63px,
-      transparent 64px);
-}
-
-.radar-circle::before{
-  content:"";
-  position:absolute;
-  left:50%;
-  top:0;
-  width:1px;
-  height:100%;
-  background:#15515b;
-}
-
-.radar-circle::after{
-  content:"";
-  position:absolute;
-  top:50%;
-  left:0;
+#radar{
   width:100%;
-  height:1px;
-  background:#15515b;
+  height:100%;
+  display:block;
 }
 
-.sweep{
-  position:absolute;
-  width:50%;
-  height:50%;
-  left:0;
-  top:0;
-  transform-origin:100% 100%;
-  background:conic-gradient(
-    from 90deg,
-    transparent 0deg,
-    rgba(0,240,255,.3) 18deg,
-    transparent 30deg
-  );
-  animation:radar 4s linear infinite;
-}
-
-@keyframes radar{
-  to{transform:rotate(360deg)}
-}
-
-.radar-text{
-  position:absolute;
-  inset:0;
-  display:grid;
-  place-items:center;
-  color:#769aa5;
-  font:9px Arial;
-}
-
-/* INFO DRAWER */
+/* ================= DRAWER ================= */
 
 .drawer{
   position:fixed;
-  z-index:100;
-  top:0;
-  right:0;
-  width:min(390px,92vw);
-  height:100dvh;
-  padding:20px;
-  background:rgba(5,10,15,.9);
-  border-left:1px solid rgba(0,240,255,.2);
-  backdrop-filter:blur(25px);
-  transform:translateX(105%);
-  transition:transform .3s ease;
-  box-shadow:-20px 0 60px rgba(0,0,0,.5);
-  overflow-y:auto;
+  inset:0;
+  z-index:1000;
+
+  visibility:hidden;
+  opacity:0;
+
+  transition:.2s;
+
+  background:#0008;
 }
 
 .drawer.open{
+  visibility:visible;
+  opacity:1;
+}
+
+.drawer-panel{
+  position:absolute;
+  top:0;
+  bottom:0;
+  right:0;
+
+  width:min(88vw,380px);
+
+  background:#080e16;
+
+  border-left:1px solid var(--line);
+
+  padding:18px;
+
+  transform:translateX(100%);
+
+  transition:.25s;
+
+  box-shadow:-20px 0 60px #000b;
+}
+
+.drawer.open .drawer-panel{
   transform:translateX(0);
 }
 
 .drawer-head{
   display:flex;
-  justify-content:space-between;
   align-items:center;
-  padding-bottom:16px;
-  border-bottom:1px solid rgba(0,240,255,.1);
+  justify-content:space-between;
+  margin-bottom:15px;
 }
 
-.drawer-head h2{
-  margin:0;
-  font-size:16px;
-}
-
-.close{
-  width:38px;
-  height:38px;
-  border-radius:10px;
-  background:#0c1820;
-  border:1px solid rgba(0,240,255,.15);
-  color:#9ec5ce;
-  cursor:pointer;
-}
-
-.info-row{
+.drawer-row{
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  padding:15px 4px;
-  border-bottom:1px solid rgba(255,255,255,.05);
+  gap:10px;
+
+  padding:13px 4px;
+
+  border-bottom:1px solid #162332;
+
+  font-size:13px;
 }
 
-.info-row span{
-  color:#718896;
-  font-size:11px;
+.drawer-row span{
+  color:var(--muted);
 }
 
-.info-row b{
-  color:#c8f7ff;
-  font:12px Arial;
+/* ================= CAMERA FULLSCREEN ================= */
+
+.fullscreen-camera{
+  position:fixed !important;
+
+  z-index:900 !important;
+
+  inset:0 !important;
+
+  width:100vw !important;
+  height:100dvh !important;
+
+  min-height:100dvh !important;
+
+  border-radius:0 !important;
+
+  margin:0 !important;
 }
 
-.info-row b.orange{
-  color:var(--orange);
-}
-
-.drawer-section{
-  color:var(--cyan);
-  font:9px Arial;
-  letter-spacing:2px;
-  margin:23px 0 3px;
-}
-
-/* OVERLAY */
-
-.overlay{
-  position:fixed;
-  z-index:90;
-  inset:0;
-  background:rgba(0,0,0,.5);
-  opacity:0;
-  pointer-events:none;
-  transition:.25s;
-  backdrop-filter:blur(2px);
-}
-
-.overlay.show{
-  opacity:1;
-  pointer-events:auto;
-}
-
-/* FULLSCREEN CAMERA */
-
-body.camera-mode{
-  overflow:hidden;
-}
-
-body.camera-mode header{
-  position:fixed;
-  top:0;
-  left:0;
-  right:0;
-  background:linear-gradient(
-    rgba(0,0,0,.65),
-    transparent
-  );
-  border:0;
-  pointer-events:none;
-}
-
-body.camera-mode .logo,
-body.camera-mode .version,
-body.camera-mode .connection{
-  display:none;
-}
-
-body.camera-mode .header-actions{
-  pointer-events:auto;
-  margin-right:auto;
-}
-
-body.camera-mode main{
-  padding:0;
-  max-width:none;
-}
-
-body.camera-mode .dashboard{
-  display:block;
-}
-
-body.camera-mode .side,
-body.camera-mode .telemetry,
-body.camera-mode .camera-panel > .panel-title{
-  display:none;
-}
-
-body.camera-mode .camera-panel{
-  position:fixed;
-  inset:0;
-  z-index:30;
-}
-
-body.camera-mode .camera{
-  width:100vw;
-  height:100dvh;
-  min-height:0;
-  border:0;
-  border-radius:0;
-}
-
-body.camera-mode .camera-controls{
-  display:flex;
-}
-
-/* GLASS CONTROLS IN CAMERA MODE */
-
-.camera-controls{
-  display:none;
+.fullscreen-camera .camera-bg{
   position:absolute;
-  z-index:10;
-  left:15px;
-  right:15px;
+  inset:0;
+}
+
+.fullscreen-camera .camera-controls{
+  position:absolute;
   bottom:20px;
-  justify-content:space-between;
-  align-items:center;
-  direction:ltr;
-  pointer-events:none;
+  left:20px;
+  right:20px;
 }
 
-.glass-group{
-  display:flex;
-  gap:8px;
-  pointer-events:auto;
+/* ================= LANDSCAPE ================= */
+
+.landscape .layout{
+  grid-template-columns:
+    minmax(0,1.65fr)
+    minmax(300px,.8fr);
 }
 
-.glass-btn{
-  width:65px;
-  height:58px;
-  border-radius:15px;
-  border:1px solid rgba(255,255,255,.2);
-  background:rgba(5,14,20,.35);
-  backdrop-filter:blur(12px);
-  color:#e8fbff;
-  box-shadow:0 8px 25px rgba(0,0,0,.2);
-  cursor:pointer;
-  touch-action:none;
-  font-size:17px;
-}
-
-.glass-btn small{
-  display:block;
-  font:8px Arial;
-  color:#a4c4cd;
-  margin-top:3px;
-}
-
-.glass-btn.active{
-  border-color:rgba(0,240,255,.7);
-  background:rgba(0,150,170,.32);
-  box-shadow:0 0 20px rgba(0,240,255,.22);
-}
-
-.glass-stop{
-  width:68px;
-  height:68px;
-  border-radius:50%;
-  border:1px solid rgba(255,80,110,.7);
-  background:rgba(100,15,35,.4);
-  backdrop-filter:blur(12px);
-  color:white;
-  font:bold 11px Arial;
-  cursor:pointer;
-  pointer-events:auto;
-}
-
-.exit-camera{
-  display:none;
-}
-
-body.camera-mode .exit-camera{
-  display:block;
-  position:fixed;
-  z-index:60;
-  top:14px;
-  left:14px;
-  width:43px;
-  height:43px;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,.18);
-  background:rgba(5,12,18,.4);
-  backdrop-filter:blur(12px);
-  color:white;
-  cursor:pointer;
-}
-
-/* FOOTER */
-
-footer{
-  padding:25px;
-  text-align:center;
-  color:#4c6977;
-  font:9px Arial;
-  letter-spacing:2px;
-}
-
-/* MOBILE */
+/* ================= TABLET ================= */
 
 @media(max-width:850px){
 
-  header{
-    height:65px;
-    padding:9px 12px;
-  }
-
-  .logo{
-    font-size:22px;
-  }
-
-  .version{
-    display:none;
-  }
-
-  .connection{
-    display:none;
-  }
-
-  main{
-    padding:11px;
-  }
-
-  .dashboard{
-    display:block;
-  }
-
-  .side{
-    margin-top:11px;
+  .layout{
+    grid-template-columns:1fr;
   }
 
   .camera{
-    height:46vh;
-    min-height:260px;
+    min-height:58vh;
   }
 
-  .telemetry{
-    grid-template-columns:repeat(2,1fr);
+  .side{
+    grid-template-columns:1fr 1fr;
   }
 
-  .lower{
-    display:none;
+  .side .card:first-child{
+    grid-column:1/-1;
   }
-
 }
 
-/* LANDSCAPE MOBILE */
+/* ================= PHONE ================= */
 
-@media(max-height:600px) and (orientation:landscape){
+@media(max-width:600px){
 
-  header{
-    height:55px;
-    padding:5px 10px;
-  }
-
-  .logo{
-    font-size:19px;
-  }
-
-  main{
+  .app{
     padding:8px;
   }
 
-  .dashboard{
-    grid-template-columns:minmax(0,1.5fr) minmax(250px,.5fr);
-    display:grid;
-  }
-
-  .side{
-    margin-top:0;
-  }
-
-  .camera{
-    height:calc(100dvh - 105px);
-    min-height:0;
-  }
-
-  .telemetry{
-    grid-template-columns:repeat(4,1fr);
-  }
-
-  .telemetry-box{
-    padding:7px;
-  }
-
-  .telemetry-box small{
-    margin-bottom:3px;
-  }
-
-  .lower{
-    display:none;
-  }
-
-}
-
-/* SMALL PHONE */
-
-@media(max-width:430px){
-
-  .icon-btn{
-    width:38px;
-    height:38px;
-  }
-
-  .panel{
-    padding:12px;
-  }
-
-  .control-button{
-    min-height:67px;
-  }
-
-  .stop{
-    width:76px;
-    height:76px;
-  }
-
-  .glass-btn{
-    width:57px;
+  .top{
     height:52px;
   }
 
-  .glass-stop{
-    width:61px;
-    height:61px;
+  .brand b{
+    font-size:19px;
   }
 
+  .status{
+    display:none;
+  }
+
+  .camera{
+    min-height:55vh;
+    border-radius:18px;
+  }
+
+  .side{
+    grid-template-columns:1fr;
+  }
+
+  .side .card:first-child{
+    grid-column:auto;
+  }
+
+  .pad{
+    grid-template-columns:repeat(3,46px);
+    grid-template-rows:repeat(2,46px);
+  }
+
+  .move{
+    font-size:18px;
+  }
+
+  .stop{
+    width:90px;
+    height:46px;
+  }
+
+  .radar{
+    height:250px;
+  }
+}
+
+/* ================= PHONE LANDSCAPE ================= */
+
+@media(max-width:850px) and (orientation:landscape){
+
+  .app{
+    padding:8px;
+  }
+
+  .top{
+    height:45px;
+    margin-bottom:8px;
+  }
+
+  .layout{
+    grid-template-columns:
+      minmax(0,1.7fr)
+      minmax(250px,.8fr);
+
+    gap:8px;
+  }
+
+  .camera{
+    min-height:calc(100dvh - 61px);
+  }
+
+  .radar{
+    height:190px;
+  }
+
+  .section{
+    padding:10px;
+  }
+
+  .metric{
+    padding:8px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<header>
+<div class="app" id="app">
 
-  <div>
-    <div class="logo" dir="ltr">
-      VORTEX <span>OS</span>
-    </div>
+<header class="top">
 
-    <div class="version" dir="ltr">
-      ROBOTICS COMMAND SYSTEM
-    </div>
+  <div class="brand">
+    <b>VORTEX</b>
+    <small>ROBOT COMMAND CENTER • v0.4</small>
   </div>
 
-  <div class="header-actions">
+  <span class="status">
+    ● DEMO LINK
+  </span>
 
-    <div class="connection">
-      <i class="dot"></i>
-      OFFLINE
-    </div>
+  <button
+    class="iconbtn"
+    id="rotateBtn"
+    type="button"
+    title="Landscape">
+    ↔
+  </button>
 
-    <!-- دکمه حالت افقی -->
-    <button
-      class="icon-btn"
-      id="landscapeBtn"
-      title="حالت افقی">
-      ↔
-    </button>
-
-    <!-- سه نقطه -->
-    <button
-      class="icon-btn"
-      id="menuBtn"
-      title="اطلاعات">
-      ⋮
-    </button>
-
-  </div>
+  <button
+    class="iconbtn"
+    id="menuBtn"
+    type="button"
+    title="Menu">
+    ⋮
+  </button>
 
 </header>
 
 
-<main>
+<main class="layout">
 
-<div class="dashboard">
+<!-- ================= CAMERA ================= -->
 
-  <!-- CAMERA -->
+<section
+  class="card camera"
+  id="camera">
 
-  <section class="camera-panel">
+  <div class="camera-bg"></div>
 
-    <div class="panel-title">
-      <h2>دوربین ربات</h2>
-      <span>VISION / CAM-01</span>
-    </div>
+  <div class="scan"></div>
 
-    <div
-      class="camera"
-      id="camera">
+  <div class="camera-center">
+    CAMERA OFFLINE • ESP32-CAM
+  </div>
 
-      <div class="corner c1"></div>
-      <div class="corner c2"></div>
-      <div class="corner c3"></div>
-      <div class="corner c4"></div>
+  <div class="cam-label">
+    CAM 01 • 720P
+  </div>
 
-      <div class="camera-full-label">
-        TAP FOR FULLSCREEN
-      </div>
-
-      <div class="camera-status">
-        ● NO SIGNAL
-      </div>
-
-      <div class="camera-center">
-
-        <div class="camera-icon">
-          ◉
-        </div>
-
-        <strong>
-          CAMERA OFFLINE
-        </strong>
-
-        <small>
-          برای نمایش دوربین واقعی،
-          ESP32-CAM باید متصل شود
-        </small>
-
-      </div>
+  <button
+    class="cam-full"
+    id="camFull"
+    type="button">
+    ⛶ تمام صفحه
+  </button>
 
 
-      <!-- کنترل‌های شیشه‌ای -->
+  <!-- CAMERA CONTROLS -->
 
-      <div class="camera-controls">
+  <div class="camera-controls">
 
-        <div class="glass-group">
+    <div class="pad">
 
-          <button
-            class="glass-btn"
-            data-action="left">
-            ◀
-            <small>LEFT</small>
-          </button>
+      <button
+        class="move"
+        data-move="forward"
+        type="button">
+        ▲
+      </button>
 
-          <button
-            class="glass-btn"
-            data-action="forward">
-            ▲
-            <small>FORWARD</small>
-          </button>
+      <button
+        class="move"
+        data-move="left"
+        type="button">
+        ◀
+      </button>
 
-          <button
-            class="glass-btn"
-            data-action="reverse">
-            ▼
-            <small>REVERSE</small>
-          </button>
+      <button
+        class="move"
+        data-move="back"
+        type="button">
+        ▼
+      </button>
 
-          <button
-            class="glass-btn"
-            data-action="right">
-            ▶
-            <small>RIGHT</small>
-          </button>
-
-        </div>
-
-        <button
-          class="glass-stop"
-          id="glassStop">
-          STOP
-        </button>
-
-      </div>
+      <button
+        class="move"
+        data-move="right"
+        type="button">
+        ▶
+      </button>
 
     </div>
 
+    <button
+      class="stop"
+      id="stopBtn"
+      type="button">
+      ■ STOP
+    </button>
 
-    <div class="telemetry">
+  </div>
 
-      <div class="telemetry-box">
-        <small>BATTERY</small>
-        <strong>— V</strong>
+</section>
+
+
+<!-- ================= SIDE ================= -->
+
+<aside class="side">
+
+  <!-- TELEMETRY -->
+
+  <section class="card section">
+
+    <h3>
+      LIVE TELEMETRY
+    </h3>
+
+    <div class="tele">
+
+      <div class="metric">
+        <span>سرعت</span>
+        <b id="speed">0%</b>
       </div>
 
-      <div class="telemetry-box">
-        <small>TEMPERATURE</small>
-        <strong>— °C</strong>
+      <div class="metric">
+        <span>باتری</span>
+        <b id="battery">82%</b>
       </div>
 
-      <div class="telemetry-box">
-        <small>SPEED</small>
-        <strong>—</strong>
+      <div class="metric">
+        <span>دما</span>
+        <b id="temp">31°C</b>
       </div>
 
-      <div class="telemetry-box">
-        <small>CONNECTION</small>
-        <strong class="offline">
-          OFFLINE
-        </strong>
+      <div class="metric">
+        <span>فاصله</span>
+        <b id="distance">148 cm</b>
+      </div>
+
+    </div>
+
+    <div class="hint">
+      داده‌ها فعلاً نمایشی هستند؛ اتصال ESP32 در مرحله بعد.
+    </div>
+
+  </section>
+
+
+  <!-- RADAR -->
+
+  <section class="card">
+
+    <div class="section">
+      <h3>
+        RADAR
+      </h3>
+    </div>
+
+    <div class="radar">
+      <canvas id="radar"></canvas>
+    </div>
+
+  </section>
+
+
+  <!-- SYSTEM -->
+
+  <section class="card section">
+
+    <h3>
+      SYSTEM
+    </h3>
+
+    <div class="tele">
+
+      <div class="metric">
+        <span>Wi-Fi</span>
+        <b>READY</b>
+      </div>
+
+      <div class="metric">
+        <span>Camera</span>
+        <b>OFFLINE</b>
       </div>
 
     </div>
 
   </section>
 
-
-  <!-- SIDE -->
-
-  <aside class="side">
-
-    <!-- CONTROLS -->
-
-    <section class="panel">
-
-      <div class="panel-title">
-        <h2>کنترل حرکت</h2>
-        <span>DRIVE</span>
-      </div>
-
-      <div class="controls">
-
-        <div class="control-side">
-
-          <button
-            class="control-button"
-            data-action="forward">
-            ▲
-            <small>FORWARD</small>
-          </button>
-
-          <button
-            class="control-button"
-            data-action="reverse">
-            ▼
-            <small>REVERSE</small>
-          </button>
-
-        </div>
-
-        <button
-          class="stop"
-          id="stop">
-          STOP
-          <small>ALL MOTORS</small>
-        </button>
-
-        <div class="control-side">
-
-          <button
-            class="control-button"
-            data-action="left">
-            ◀
-            <small>LEFT</small>
-          </button>
-
-          <button
-            class="control-button"
-            data-action="right">
-            ▶
-            <small>RIGHT</small>
-          </button>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- RADAR -->
-
-    <section class="panel">
-
-      <div class="panel-title">
-        <h2>رادار محیط</h2>
-        <span>RADAR</span>
-      </div>
-
-      <div class="radar">
-
-        <div class="radar-circle">
-
-          <div class="sweep"></div>
-
-          <div class="radar-text">
-            WAITING FOR SENSOR
-          </div>
-
-        </div>
-
-      </div>
-
-    </section>
-
-
-    <!-- STATUS -->
-
-    <section class="panel">
-
-      <div class="panel-title">
-        <h2>وضعیت سیستم</h2>
-        <span>STATUS</span>
-      </div>
-
-      <div class="info-row">
-        <span>ESP32</span>
-        <b class="orange">OFFLINE</b>
-      </div>
-
-      <div class="info-row">
-        <span>Wi-Fi</span>
-        <b class="orange">DISCONNECTED</b>
-      </div>
-
-      <div class="info-row">
-        <span>Bluetooth</span>
-        <b class="orange">DISCONNECTED</b>
-      </div>
-
-    </section>
-
-  </aside>
-
-</div>
+</aside>
 
 </main>
 
-
-<footer>
-VORTEX OS · COMMAND CENTER · v0.3
-</footer>
-
-
-<!-- OVERLAY -->
-
-<div
-  class="overlay"
-  id="overlay">
 </div>
 
 
-<!-- INFO DRAWER -->
+<!-- ================= DRAWER ================= -->
 
-<aside
+<div
   class="drawer"
-  id="drawer">
+  id="drawer"
+  aria-hidden="true">
 
-  <div class="drawer-head">
+  <div
+    class="drawer-panel"
+    id="drawerPanel">
 
-    <h2>
-      اطلاعات ربات
-    </h2>
+    <div class="drawer-head">
 
-    <button
-      class="close"
-      id="closeDrawer">
-      ✕
-    </button>
+      <b>
+        اطلاعات VORTEX
+      </b>
+
+      <button
+        class="iconbtn"
+        id="closeMenu"
+        type="button">
+        ×
+      </button>
+
+    </div>
+
+
+    <div class="drawer-row">
+      <span>وضعیت کنترل</span>
+      <b>Demo</b>
+    </div>
+
+    <div class="drawer-row">
+      <span>اتصال</span>
+      <b>Waiting for ESP32</b>
+    </div>
+
+    <div class="drawer-row">
+      <span>فرکانس PWM</span>
+      <b>1000 Hz</b>
+    </div>
+
+    <div class="drawer-row">
+      <span>حالت حرکت</span>
+      <b>Tank Drive</b>
+    </div>
+
+    <div class="drawer-row">
+      <span>رادار</span>
+      <b>Ultrasonic</b>
+    </div>
+
+    <div class="drawer-row">
+      <span>نسخه رابط</span>
+      <b>0.4</b>
+    </div>
 
   </div>
 
-
-  <div class="drawer-section">
-    ROBOT
-  </div>
-
-  <div class="info-row">
-    <span>نام ربات</span>
-    <b>VORTEX-01</b>
-  </div>
-
-  <div class="info-row">
-    <span>وضعیت</span>
-    <b class="orange">OFFLINE</b>
-  </div>
-
-  <div class="info-row">
-    <span>حالت کنترل</span>
-    <b>MANUAL</b>
-  </div>
+</div>
 
 
-  <div class="drawer-section">
-    TELEMETRY
-  </div>
+<script>
 
-  <div class="info-row">
-    <span>باتری</span>
-    <b>— V</b>
-  </div>
+(function(){
 
-  <div class="info-row">
-    <span>دما</span>
-    <b>— °C</b>
-  </div>
-
-  <div class="info-row">
-    <span>سرعت</span>
-    <b>—</b>
-  </div>
-
-  <div class="info-row">
-    <span>مسافت</span>
-    <b>— m</b>
-  </div>
+"use strict";
 
 
-  <div class="drawer-section">
-    CONNECTION
-  </div>
+/* ================= ELEMENTS ================= */
 
-  <div class="info-row">
-    <span>Wi-Fi</span>
-    <b class="orange">OFFLINE</b>
-  </div>
+const app =
+  document.getElementById("app");
 
-  <div class="info-row">
-    <span>Bluetooth</span>
-    <b class="orange">OFFLINE</b>
-  </div>
+const camera =
+  document.getElementById("camera");
 
-  <div class="info-row">
-    <span>Camera</span>
-    <b class="orange">NO SIGNAL</b>
-  </div>
+const drawer =
+  document.getElementById("drawer");
+
+const menuBtn =
+  document.getElementById("menuBtn");
+
+const closeMenu =
+  document.getElementById("closeMenu");
+
+const rotateBtn =
+  document.getElementById("rotateBtn");
+
+const camFull =
+  document.getElementById("camFull");
+
+const stopBtn =
+  document.getElementById("stopBtn");
+
+const speed =
+  document.getElementById("speed");
 
 
-  <div class="drawer-section">
-    SENSORS
-  </div>
+/* ================= MENU ================= */
 
-  <div class="info-row">
-    <span>Ultrasonic</span>
-    <b>NO DATA</b>
-  </div>
+function openMenu(){
 
-  <div class="info-row">
-    <span>PIR</span>
-    <b>NO DATA</b>
-  </div>
+  drawer.classList.add("open");
 
-  <di
+  drawer.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+}
+
+
+function closeMenuFn(){
+
+  drawer.classList.remove("open");
+
+  drawer.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
+}
+
+
+menuBtn.addEventListener(
+  "click",
+  function(e){
+
+    e.stopPropagation();
+
+    openMenu();
+
+  }
+);
+
+
+closeMenu.addEventListener(
+  "click",
+  closeMenuFn
+);
+
+
+drawer.addEventListener(
+  "click",
+  function(e){
+
+    if(e.target === drawer){
+
+      closeMenuFn();
+
+    }
+
+  }
+);
+
+
+/* ================= LANDSCAPE ================= */
+
+function updateOrientationClass(){
+
+  const isLandscape =
+    window.innerWidth >
+    window.innerHeight;
+
+  app.classList.toggle(
+    "landscape",
+    isLandscape
+  );
+
+}
+
+
+window.addEventListener(
+  "resize",
+  updateOrientationClass
+);
+
+
+window.addEventListener(
+  "orientationchange",
+  function(){
+
+    setTimeout(
+      updateOrientationClass,
+      200
+    );
+
+  }
+);
+
+
+updateOrientationClass();
+
+
+rotateBtn.addEventListener(
+  "click",
+  async function(){
+
+    /*
+      اول تلاش می‌کنیم
+      صفحه واقعاً Landscape شود.
+    */
+
+    try{
+
+      if(
+        screen.orientation &&
+        screen.orientation.lock
+      ){
+
+        await screen.orientation.lock(
+          "landscape"
+        );
+
+      }
+
+    }catch(error){
+
+      /*
+        بعضی مرورگرهای موبایل
+        اجازه lock کردن نمی‌دهند.
+        در این حالت چیزی خراب نمی‌شود.
+      */
+
+    }
+
+    /*
+      اگر مرورگر اجازه داد
+      Fullscreen را هم امتحان می‌کنیم.
+    */
+
+    try{
+
+      if(
+        document.documentElement.requestFullscreen &&
+        !document.fullscreenElement
+      ){
+
+        await document.documentElement.requestFullscreen();
+
+      }
+
+    }catch(error){}
+
+    setTimeout(
+      updateOrientationClass,
+      300
+    );
+
+  }
+);
+
+
+/* ================= CAMERA FULLSCREEN ================= */
+
+function setCameraFullscreen(enabled){
+
+  if(enabled){
+
+    camera.classList.add(
+      "fullscreen-camera"
+    );
+
+    camFull.textContent =
+      "× بستن";
+
+    document.body.style.overflow =
+      "hidden";
+
+  }else{
+
+    camera.classList.remove(
+      "fullscreen-camera"
+    );
+
+    camFull.textContent =
+      "⛶ تمام صفحه";
+
+    document.body.style.overflow =
+      "";
+
+  }
+
+}
+
+
+camFull.addEventListener(
+  "click",
+  function(e){
+
+    e.stopPropagation();
+
+    const active =
+      camera.classList.contains(
+        "fullscreen-camera"
+      );
+
+    setCameraFullscreen(
+      !active
+    );
+
+  }
+);
+
+
+/*
+  لمس خود تصویر دوربین
+  هم Fullscreen داخلی را باز می‌کند.
+*/
+
+camera.addEventListener(
+  "click",
+  function(e){
+
+    if(
+      !e.target.closest("button") &&
+      !camera.classList.contains(
+        "fullscreen-camera"
+      )
+    ){
+
+      setCameraFullscreen(true);
+
+    }
+
+  }
+);
+
+
+/* ================= ESC ================= */
+
+document.addEventListener(
+  "keydown",
+  function(e){
+
+    if(e.key === "Escape"){
+
+      setCameraFullscreen(false);
+
+      closeMenuFn();
+
+    }
+
+  }
+);
+
+
+/* ================= STOP ================= */
+
+stopBtn.addEventListener(
+  "click",
+  function(){
+
+    document
+      .querySelectorAll(".move")
+      .forEach(function(button){
+
+        button.classList.remove(
+          "active"
+        );
+
+      });
+
+    speed.textContent =
+      "0%";
+
+  }
+);
+
+
+/* ================= MOVEMENT ================= */
+
+document
+  .querySelectorAll(".move")
+  .forEach(function(button){
+
+    function press(){
+
+      speed.textContent =
+        "55%";
+
+      button.classList.add(
+        "active"
+      );
+
+    }
+
+
+    function release(){
+
+      speed.textContent =
+        "0%";
+
+      button.classList.remove(
+        "active"
+      );
+
+    }
+
+
+    button.addEventListener(
+      "pointerdown",
+      press
+    );
+
+    button.addEventListener(
+      "pointerup",
+      release
+    );
+
+    button.addEventListener(
+      "pointercancel",
+      release
+    );
+
+    button.addEventListener(
+      "pointerleave",
+      release
+    );
+
+  });
+
+
+/* ================= RADAR ================= */
+
+const canvas =
+  document.getElementById("radar");
+
+const ctx =
+  canvas.getContext("2d");
+
+let radarAngle = 0;
+
+
+function resizeCanvas(){
+
+  const rect =
+    canvas.getBoundingClientRect();
+
+  const dpr =
+    window.devicePixelRatio || 1;
+
+  const width =
+    Math.max(
+      1,
+      Math.floor(
+        rect.width * dpr
+      )
+    );
+
+  const height =
+    Math.max(
+      1,
+      Math.floor(
+        rect.height * dpr
+      )
+    );
+
+
+  if(
+    canvas.width !== width ||
+    canvas.height !== height
+  ){
+
+    canvas.width =
+      width;
+
+    canvas.height =
+      height;
+
+  }
+
+}
+
+
+function drawRadar(){
+
+  resizeCanvas();
+
+  const rect =
+    canvas.getBoundingClientRect();
+
+  const W =
+    rect.width;
+
+  const H =
+    rect.height;
+
+  if(
+    W <= 0 ||
+    H <= 0
+  ){
+
+    requestAnimationFrame(
+      drawRadar
+    );
+
+    return;
+
+  }
+
+
+  const dpr =
+    window.devicePixelRatio || 1;
+
+  ctx.setTransform(
+    dpr,
+    0,
+    0,
+    dpr,
+    0,
+    0
+  );
+
+
+  ctx.clearRect(
+    0,
+    0,
+    W,
+    H
+  );
+
+
+  const cx =
+    W / 2;
+
+  const cy =
+    H - 12;
+
+  const R =
+    Math.min(
+      W * 0.43,
+      H * 0.86
+    );
+
+
+  /* GRID */
+
+  ctx.strokeStyle =
+    "rgba(53,231,255,.22)";
+
+  ctx.lineWidth =
+    1;
+
+
+  for(
+    let i = 1;
+    i <= 4;
+    i++
+  ){
+
+    ctx.beginPath();
+
+    ctx.arc(
+      cx,
+      cy,
+      R * i / 4,
+      Math.PI,
+      Math.PI * 2
+    );
+
+    ctx.stroke();
+
+  }
+
+
+  /* HORIZONTAL LINE */
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+    cx - R,
+    cy
+  );
+
+  ctx.lineTo(
+    cx + R,
+    cy
+  );
+
+  ctx.stroke();
+
+
+  /* ANGLE LINES */
+
+  for(
+    let i = 0;
+    i <= 6;
+    i++
+  ){
+
+    const a =
+      Math.PI +
+      i * Math.PI / 6;
+
+    ctx.beginPath();
+
+    ctx.moveTo(
+      cx,
+      cy
+    );
+
+    ctx.lineTo(
+      cx +
+      Math.cos(a) * R,
+
+      cy +
+      Math.sin(a) * R
+    );
+
+    ctx.stroke();
+
+  }
+
+
+  /* SCANNER */
+
+  radarAngle += 0.025;
+
+
+  const scannerAngle =
+    Math.PI + radarAngle;
+
+
+  const sx =
+    cx +
+    Math.cos(
+      scannerAngle
+    ) * R;
+
+
+  const sy =
+    cy +
+    Math.sin(
+      scannerAngle
+    ) * R;
+
+
+  const gradient =
+    ctx.createLinearGradient(
+      cx,
+      cy,
+      sx,
+      sy
+    );
+
+
+  gradient.addColorStop(
+    0,
+    "rgba(53,231,255,.55)"
+  );
+
+  gradient.addColorStop(
+    1,
+    "rgba(53,231,255,0)"
+  );
+
+
+  ctx.strokeStyle =
+    gradient;
+
+  ctx.lineWidth =
+    3;
+
+
+  ctx.beginPath();
+
+  ctx.moveTo(
+    cx,
+    cy
+  );
+
+  ctx.lineTo(
+    sx,
+    sy
+  );
+
+  ctx.stroke();
+
+
+  /* OBJECTS */
+
+  const objects = [
+
+    {
+      x:0.25,
+      y:0.30
+    },
+
+    {
+      x:0.68,
+      y:0.42
+    },
+
+    {
+      x:0.48,
+      y:0.68
+    }
+
+  ];
+
+
+  objects.forEach(
+    function(object){
+
+      const x =
+        cx +
+        (object.x - 0.5) *
+        R * 1.8;
+
+      const y =
+        cy -
+        object.y *
+        R * 1.5;
+
+
+      ctx.fillStyle =
+        "#ff5368";
+
+
+      ctx.beginPath();
+
+      ctx.arc(
+        x,
+        y,
+        4,
+        0,
+        Math.PI * 2
+      );
+
+      ctx.fill();
+
+    }
+  );
+
+
+  /* ROBOT */
+
+  ctx.fillStyle =
+    "#42f59b";
+
+
+  ctx.beginPath();
+
+  ctx.arc(
+    cx,
+    cy,
+    5,
+    0,
+    Math.PI * 2
+  );
+
+  ctx.fill();
+
+
+  requestAnimationFrame(
+    drawRadar
+  );
+
+}
+
+
+requestAnimationFrame(
+  drawRadar
+);
+
+
+/* ================= END ================= */
+
+})();
+
+</script>
+
+</body>
+      </html>
