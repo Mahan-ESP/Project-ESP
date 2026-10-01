@@ -1,1259 +1,242 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#05070b">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#04060a">
 <title>VORTEX OS</title>
-
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#05070b;
-  --panel:#0b1018;
-  --panel2:#101722;
-  --border:#1c2938;
-  --text:#f2f7ff;
-  --muted:#8391a3;
-  --cyan:#2ee6ff;
-  --green:#36ef9a;
-  --red:#ff5268;
-  --yellow:#ffd45c;
-  --purple:#9b7cff;
-  --shadow:0 18px 50px rgba(0,0,0,.45);
-}
-
-*{
-  box-sizing:border-box;
-  -webkit-tap-highlight-color:transparent;
-}
-
-html,body{
-  margin:0;
-  min-height:100%;
-  background:var(--bg);
-  color:var(--text);
-  font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Tahoma,
-    sans-serif;
-}
-
-body{
-  overflow-x:hidden;
-}
-
-button{
-  font:inherit;
-}
-
-button:active{
-  transform:scale(.96);
-}
-
-.hidden{
-  display:none!important;
-}
-
-/* ================= APP ================= */
-
-.app{
-  width:100%;
-  min-height:100vh;
-  padding:12px;
-  max-width:1250px;
-  margin:auto;
-}
-
-/* ================= HEADER ================= */
-
-.header{
-  height:62px;
-  display:flex;
-  align-items:center;
-  gap:9px;
-  margin-bottom:12px;
-}
-
-.logo{
-  margin-left:auto;
-}
-
-.logo strong{
-  display:block;
-  font-size:24px;
-  letter-spacing:4px;
-}
-
-.logo small{
-  color:var(--muted);
-  font-size:9px;
-  letter-spacing:1px;
-}
-
-.header-btn{
-  width:44px;
-  height:44px;
-  border-radius:14px;
-  border:1px solid var(--border);
-  background:linear-gradient(145deg,#101824,#080d14);
-  color:white;
-  cursor:pointer;
-  display:grid;
-  place-items:center;
-  box-shadow:0 8px 25px #0007;
-}
-
-.connection{
-  padding:8px 10px;
-  border-radius:999px;
-  font-size:10px;
-  color:var(--green);
-  border:1px solid #164c38;
-  background:#071610;
-}
-
-/* ================= PAGES ================= */
-
-.page{
-  display:none;
-  animation:pageIn .22s ease;
-}
-
-.page.active{
-  display:block;
-}
-
-@keyframes pageIn{
-  from{
-    opacity:0;
-    transform:translateY(5px);
-  }
-  to{
-    opacity:1;
-    transform:none;
-  }
-}
-
-/* ================= CARDS ================= */
-
-.card{
-  background:
-    linear-gradient(145deg,
-      rgba(15,22,32,.98),
-      rgba(7,11,17,.98)
-    );
-  border:1px solid var(--border);
-  border-radius:22px;
-  box-shadow:var(--shadow);
-}
-
-.card-title{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:15px 16px;
-}
-
-.card-title h2,
-.card-title h3{
-  margin:0;
-  font-size:14px;
-}
-
-.card-title span{
-  color:var(--muted);
-  font-size:10px;
-}
-
-/* ================= HOME ================= */
-
-.home-grid{
-  display:grid;
-  grid-template-columns:1.1fr .9fr;
-  gap:12px;
-}
-
-.robot-card{
-  padding:20px;
-  min-height:245px;
-  display:flex;
-  flex-direction:column;
-  justify-content:space-between;
-}
-
-.robot-head{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-
-.robot-name{
-  font-size:12px;
-  color:var(--muted);
-}
-
-.robot-state{
-  display:flex;
-  align-items:center;
-  gap:8px;
-  font-size:11px;
-}
-
-.state-dot{
-  width:9px;
-  height:9px;
-  border-radius:50%;
-  background:var(--red);
-  box-shadow:0 0 15px var(--red);
-}
-
-.robot-card.on .state-dot{
-  background:var(--green);
-  box-shadow:0 0 15px var(--green);
-}
-
-.power-btn{
-  width:128px;
-  height:128px;
-  border-radius:50%;
-  margin:auto;
-  border:1px solid #253448;
-  background:
-    radial-gradient(circle at 35% 30%,#1a2838,#070b11 65%);
-  color:#aab8c9;
-  cursor:pointer;
-  box-shadow:
-    inset 0 0 30px #000,
-    0 0 35px #000;
-  font-size:30px;
-  transition:.25s;
-}
-
-.power-btn small{
-  display:block;
-  margin-top:8px;
-  font-size:10px;
-  color:var(--muted);
-}
-
-.robot-card.on .power-btn{
-  color:var(--green);
-  border-color:#267453;
-  box-shadow:
-    inset 0 0 30px #07160f,
-    0 0 30px #1ed77d33;
-}
-
-/* ================= STATUS ================= */
-
-.status-grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:9px;
-  padding:0 12px 12px;
-}
-
-.status-item{
-  min-height:78px;
-  border:1px solid var(--border);
-  border-radius:16px;
-  background:#09101a;
-  padding:11px;
-  cursor:pointer;
-  transition:.18s;
-}
-
-.status-item:hover{
-  border-color:#29425a;
-}
-
-.status-icon{
-  font-size:18px;
-}
-
-.status-item small{
-  display:block;
-  color:var(--muted);
-  font-size:9px;
-  margin-top:5px;
-}
-
-.status-item b{
-  display:block;
-  font-size:12px;
-  margin-top:3px;
-}
-
-.green{
-  color:var(--green);
-}
-
-.red{
-  color:var(--red);
-}
-
-.yellow{
-  color:var(--yellow);
-}
-
-.cyan{
-  color:var(--cyan);
-}
-
-/* ================= CONTROL PREVIEW ================= */
-
-.quick-grid{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:9px;
-  padding:0 12px 12px;
-}
-
-.quick{
-  min-height:70px;
-  border:1px solid var(--border);
-  border-radius:16px;
-  background:#09101a;
-  color:white;
-  cursor:pointer;
-  padding:8px;
-}
-
-.quick span{
-  display:block;
-  font-size:18px;
-}
-
-.quick small{
-  display:block;
-  color:var(--muted);
-  font-size:9px;
-  margin-top:5px;
-}
-
-/* ================= BIG CONTROL BUTTON ================= */
-
-.open-control{
-  width:100%;
-  min-height:78px;
-  border:1px solid #24536a;
-  border-radius:19px;
-  background:
-    linear-gradient(
-      135deg,
-      #0b2733,
-      #071017
-    );
-  color:white;
-  cursor:pointer;
-  margin-top:12px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  padding:0 20px;
-  box-shadow:0 0 35px #1ce4ff0c;
-}
-
-.open-control strong{
-  display:block;
-  color:var(--cyan);
-  font-size:15px;
-}
-
-.open-control small{
-  display:block;
-  color:var(--muted);
-  margin-top:5px;
-  font-size:10px;
-}
-
-.open-control b{
-  font-size:28px;
-}
-
-/* ================= CONTROL PAGE ================= */
-
-.control-layout{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
-
-.movement-card{
-  min-height:430px;
-  padding:18px;
-  display:flex;
-  flex-direction:column;
-}
-
-.movement-area{
-  flex:1;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-.dpad{
-  direction:ltr;
-  display:grid;
-  grid-template-columns:70px 70px 70px;
-  grid-template-rows:70px 70px 70px;
-  gap:9px;
-}
-
-.move{
-  border:1px solid #25384b;
-  background:
-    linear-gradient(145deg,#121d29,#080e15);
-  color:white;
-  border-radius:19px;
-  font-size:25px;
-  cursor:pointer;
-  box-shadow:0 10px 25px #0007;
-}
-
-.move.up{
-  grid-column:2;
-}
-
-.move.left{
-  grid-column:1;
-  grid-row:2;
-}
-
-.move.stop{
-  grid-column:2;
-  grid-row:2;
-  color:var(--red);
-  border-color:#632635;
-}
-
-.move.right{
-  grid-column:3;
-  grid-row:2;
-}
-
-.move.down{
-  grid-column:2;
-  grid-row:3;
-}
-
-/* ================= CAMERA NECK ================= */
-
-.neck{
-  display:grid;
-  grid-template-columns:1fr 1fr 1fr;
-  gap:8px;
-  margin-top:12px;
-}
-
-.neck button{
-  height:46px;
-  border:1px solid var(--border);
-  background:#09101a;
-  color:white;
-  border-radius:14px;
-  cursor:pointer;
-}
-
-.neck button:nth-child(2){
-  grid-column:2;
-}
-
-/* ================= CONTROL OPTIONS ================= */
-
-.options{
-  padding:15px;
-  display:grid;
-  gap:10px;
-}
-
-.option{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  min-height:58px;
-  padding:10px 12px;
-  border:1px solid var(--border);
-  border-radius:15px;
-  background:#09101a;
-}
-
-.option-info{
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.option-icon{
-  width:36px;
-  height:36px;
-  border-radius:11px;
-  display:grid;
-  place-items:center;
-  background:#111b27;
-}
-
-.option-info small{
-  display:block;
-  color:var(--muted);
-  font-size:9px;
-}
-
-.option-info b{
-  display:block;
-  font-size:12px;
-  margin-top:2px;
-}
-
-/* ================= SWITCH ================= */
-
-.switch{
-  position:relative;
-  width:48px;
-  height:28px;
-  flex:none;
-}
-
-.switch input{
-  display:none;
-}
-
-.slider{
-  position:absolute;
-  inset:0;
-  border-radius:30px;
-  background:#17202b;
-  border:1px solid #263546;
-  cursor:pointer;
-  transition:.2s;
-}
-
-.slider:before{
-  content:"";
-  position:absolute;
-  width:20px;
-  height:20px;
-  top:3px;
-  right:4px;
-  border-radius:50%;
-  background:#718094;
-  transition:.2s;
-}
-
-.switch input:checked + .slider{
-  background:#0c4937;
-  border-color:#267b5c;
-}
-
-.switch input:checked + .slider:before{
-  transform:translateX(-19px);
-  background:var(--green);
-}
-
-/* ================= SLIDER ================= */
-
-.speed-box{
-  padding:15px;
-}
-
-.speed-head{
-  display:flex;
-  justify-content:space-between;
-  font-size:11px;
-  margin-bottom:10px;
-}
-
-.speed-head span{
-  color:var(--muted);
-}
-
-input[type=range]{
-  width:100%;
-  accent-color:var(--cyan);
-}
-
-/* ================= BEEP / AUTO ================= */
-
-.action-row{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:9px;
-}
-
-.action-btn{
-  min-height:62px;
-  border:1px solid var(--border);
-  border-radius:16px;
-  background:#09101a;
-  color:white;
-  cursor:pointer;
-}
-
-.action-btn.active{
-  border-color:#2a725a;
-  background:#0a1d16;
-  color:var(--green);
-}
-
-/* ================= CAMERA PAGE ================= */
-
-.camera-page{
-  position:relative;
-  width:100%;
-  height:calc(100vh - 86px);
-  min-height:500px;
-  overflow:hidden;
-  border-radius:24px;
-  background:#020406;
-  border:1px solid var(--border);
-}
-
-.camera-bg{
-  position:absolute;
-  inset:0;
-  background:
-    radial-gradient(
-      ellipse at center,
-      #182a3b 0,
-      #09131e 32%,
-      #020406 75%
-    );
-}
-
-.camera-grid{
-  position:absolute;
-  inset:0;
-  opacity:.18;
-  background:
-    linear-gradient(#35e7ff18 1px,transparent 1px),
-    linear-gradient(90deg,#35e7ff18 1px,transparent 1px);
-  background-size:45px 45px;
-}
-
-.camera-scan{
-  position:absolute;
-  left:0;
-  right:0;
-  height:2px;
-  top:0;
-  background:linear-gradient(
-    90deg,
-    transparent,
-    var(--cyan),
-    transparent
-  );
-  opacity:.5;
-  animation:scan 4s linear infinite;
-}
-
-@keyframes scan{
-  from{top:0}
-  to{top:100%}
-}
-
-.camera-message{
-  position:absolute;
-  inset:0;
-  display:grid;
-  place-items:center;
-  color:#718197;
-  font-size:12px;
-}
-
-.camera-top{
-  position:absolute;
-  top:12px;
-  left:12px;
-  right:12px;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  z-index:5;
-}
-
-.camera-top span{
-  background:#020508bb;
-  border:1px solid #26384a;
-  border-radius:11px;
-  padding:8px 10px;
-  font-size:10px;
-}
-
-.camera-top button{
-  width:42px;
-  height:42px;
-  border:1px solid #26384a;
-  background:#020508bb;
-  color:white;
-  border-radius:13px;
-  cursor:pointer;
-}
-
-/* Camera controls */
-.camera-controls{
-  position:absolute;
-  inset:0;
-  z-index:10;
-  pointer-events:none;
-}
-
-.camera-dpad{
-  position:absolute;
-  bottom:22px;
-  left:22px;
-  direction:ltr;
-}
-
-.camera-dpad .dpad{
-  transform:scale(.85);
-  transform-origin:bottom left;
-}
-
-.camera-neck{
-  position:absolute;
-  bottom:25px;
-  right:25px;
-  display:grid;
-  grid-template-columns:48px 48px 48px;
-  gap:7px;
-  direction:ltr;
-}
-
-.camera-neck button{
-  width:48px;
-  height:48px;
-  border:1px solid #ffffff2c;
-  background:#07111ccc;
-  backdrop-filter:blur(12px);
-  color:white;
-  border-radius:14px;
-  cursor:pointer;
-  pointer-events:auto;
-}
-
-.camera-neck button:nth-child(2){
-  grid-column:2;
-}
-
-.camera-hint{
-  position:absolute;
-  bottom:12px;
-  left:50%;
-  transform:translateX(-50%);
-  color:#8190a2;
-  font-size:9px;
-  white-space:nowrap;
-}
-
-/* ================= DRAWER ================= */
-
-.drawer{
-  position:fixed;
-  inset:0;
-  z-index:1000;
-  background:#0009;
-  opacity:0;
-  visibility:hidden;
-  transition:.2s;
-}
-
-.drawer.open{
-  opacity:1;
-  visibility:visible;
-}
-
-.drawer-panel{
-  position:absolute;
-  top:0;
-  bottom:0;
-  right:0;
-  width:min(88vw,390px);
-  background:#080d14;
-  border-left:1px solid var(--border);
-  padding:18px;
-  transform:translateX(100%);
-  transition:.25s;
-  box-shadow:-25px 0 60px #000b;
-  overflow-y:auto;
-}
-
-.drawer.open .drawer-panel{
-  transform:translateX(0);
-}
-
-.drawer-title{
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  margin-bottom:18px;
-}
-
-.drawer-title strong{
-  letter-spacing:1px;
-}
-
-.drawer-close{
-  width:40px;
-  height:40px;
-  border:1px solid var(--border);
-  border-radius:13px;
-  background:#0d141d;
-  color:white;
-  cursor:pointer;
-}
-
-.drawer-item{
-  min-height:60px;
-  border-bottom:1px solid #162230;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-}
-
-.drawer-item span{
-  color:var(--muted);
-  font-size:11px;
-}
-
-.drawer-item b{
-  font-size:12px;
-}
-
-/* ================= RADAR ================= */
-
-.radar-wrap{
-  padding:12px;
-}
-
-#radar{
-  display:block;
-  width:100%;
-  height:250px;
-  background:#050a10;
-  border-radius:18px;
-}
-
-/* ================= LANDSCAPE ================= */
-
-@media(max-width:900px) and (orientation:landscape){
-
-  .app{
-    padding:8px;
-  }
-
-  .header{
-    height:45px;
-    margin-bottom:8px;
-  }
-
-  .logo strong{
-    font-size:19px;
-  }
-
-  .home-grid{
-    grid-template-columns:1fr 1fr;
-  }
-
-  .robot-card{
-    min-height:200px;
-  }
-
-  .power-btn{
-    width:95px;
-    height:95px;
-  }
-
-  .control-layout{
-    grid-template-columns:1.1fr .9fr;
-  }
-
-  .movement-card{
-    min-height:calc(100vh - 70px);
-  }
-
-  .camera-page{
-    height:calc(100vh - 61px);
-    min-height:300px;
-    border-radius:18px;
-  }
-
-  .connection{
-    display:none;
-  }
-}
-
-/* ================= MOBILE PORTRAIT ================= */
-
-@media(max-width:650px){
-
-  .app{
-    padding:8px;
-  }
-
-  .header{
-    height:52px;
-  }
-
-  .logo strong{
-    font-size:20px;
-  }
-
-  .connection{
-    display:none;
-  }
-
-  .home-grid{
-    grid-template-columns:1fr;
-  }
-
-  .robot-card{
-    min-height:260px;
-  }
-
-  .control-layout{
-    grid-template-columns:1fr;
-  }
-
-  .movement-card{
-    min-height:390px;
-  }
-
-  .camera-page{
-    height:calc(100vh - 74px);
-    min-height:430px;
-  }
-
-  .camera-neck{
-    right:14px;
-    bottom:18px;
-  }
-
-  .camera-dpad{
-    left:8px;
-    bottom:10px;
-  }
-
-  .camera-hint{
-    display:none;
-  }
-}
+:root{--bg:#04060a;--p:#0a111b;--p2:#101a28;--ln:#1a2a3e;--c:#19e6ff;--v:#8a5cff;--g:#2dffa0;--r:#ff3d6e;--t:#e6f1ff;--m:#7f93ad;--b:87;--px:0;--py:0}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--t);font-family:Vazirmatn,Tahoma,sans-serif}
+body{background:radial-gradient(800px 420px at 85% -8%,#0f2c3d66,transparent),radial-gradient(700px 480px at 0% 105%,#2b0f4d55,transparent),var(--bg);background-attachment:fixed;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+body[data-pg=cam]{overflow:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--c);outline-offset:2px}
+.app{max-width:980px;margin:0 auto;padding:12px}
+.page{display:none}.page.on{display:block;animation:in .4s both}
+@keyframes in{from{opacity:0;transform:translateY(10px) scale(.99)}}
+.top{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.top h1{margin:0;font-size:17px;font-weight:800}
+.logo{font:900 22px Orbitron,sans-serif!important;letter-spacing:.28em;direction:ltr;background:linear-gradient(90deg,var(--c),var(--v));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 8px #19e6ff66)}
+.sp{flex:1}
+.pill{display:flex;align-items:center;gap:6px;padding:5px 10px;border:1px solid var(--ln);border-radius:99px;background:var(--p);font-size:12px;white-space:nowrap}
+.wf{color:#ffc14d}.wf.ok{color:var(--g)}
+.bi{direction:ltr;width:22px;height:11px;border:1px solid var(--g);border-radius:3px;position:relative}
+.bi::before{content:'';position:absolute;inset:1px;width:calc(var(--b)*1% - 2px);background:var(--g);border-radius:1px;transition:width .6s}
+.bi.low{border-color:var(--r)}.bi.low::before{background:var(--r)}
+.ib{width:38px;height:38px;border-radius:12px;border:1px solid var(--ln);background:var(--p);display:grid;place-items:center;font-size:18px;transition:.2s}
+.ib:hover{border-color:var(--c)}
+.ib u{display:block;width:16px;height:2px;background:var(--c);box-shadow:0 -5px var(--c),0 5px var(--c);text-decoration:none}
+.btn{border:1px solid var(--ln);background:var(--p2);border-radius:14px;padding:12px 14px;transition:.2s;font-weight:600}
+.btn:active,.chip:active{transform:scale(.96)}
+.btn.on{border-color:var(--c);color:var(--c);box-shadow:0 0 14px #19e6ff44 inset,0 0 16px #19e6ff33}
+.btn.red.on{border-color:var(--r);color:var(--r);box-shadow:0 0 14px #ff3d6e44 inset,0 0 16px #ff3d6e44}
+.big{padding:16px;font-size:18px;font-weight:800;width:100%}
+.go{border-color:var(--c);color:var(--c);background:linear-gradient(135deg,#0a2a3a,#1a1048);box-shadow:0 0 22px #19e6ff33;position:relative;overflow:hidden}
+.go::after{content:'';position:absolute;top:0;bottom:0;width:60px;left:-80px;background:linear-gradient(90deg,transparent,#19e6ff44,transparent);transform:skewX(-20deg);animation:sh 3.5s 1s infinite}
+@keyframes sh{to{left:120%}}
+.dgrid{display:grid;gap:14px}
+@media(min-width:700px){.dgrid{grid-template-columns:1.1fr 1fr}}
+.colB{display:flex;flex-direction:column;gap:12px}
+.cam{position:relative;aspect-ratio:16/9;border:1px solid var(--ln);border-radius:18px;overflow:hidden;background:#02040a;box-shadow:0 0 30px #19e6ff12}
+.vw{position:absolute;inset:0;overflow:hidden}
+.mirror .vw{transform:scaleX(-1)}.flip .vw{transform:rotate(180deg)}.mirror.flip .vw{transform:scaleX(-1) rotate(180deg)}
+.scene{position:absolute;inset:-30%;transform:translate(calc(var(--px)*1px),calc(var(--py)*1px));transition:transform .12s linear;background:linear-gradient(#0000 49%,#19e6ff22 50%,#0000 70%),linear-gradient(#19e6ff1c 1px,#0000 1px) 0 0/44px 44px,linear-gradient(90deg,#19e6ff1c 1px,#0000 1px) 0 0/44px 44px,radial-gradient(circle at 60% 55%,#8a5cff33,transparent 30%)}
+.cam img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.night .vw{filter:grayscale(1) sepia(1) hue-rotate(70deg) saturate(3.5) brightness(1.15)}
+.lamp::before{content:'';position:absolute;inset:0;z-index:1;background:radial-gradient(circle,#ffffff30,transparent 70%);pointer-events:none}
+.scan{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--c),transparent);opacity:.45;animation:scan 3.2s linear infinite}
+@keyframes scan{from{top:0}to{top:100%}}
+.xh{position:absolute;left:50%;top:50%;width:34px;height:34px;margin:-17px;border:1px solid #19e6ff88;border-radius:50%;pointer-events:none}
+.xh::before,.xh::after{content:'';position:absolute;background:#19e6ff88}.xh::before{left:50%;top:-8px;bottom:-8px;width:1px}.xh::after{top:50%;left:-8px;right:-8px;height:1px}
+.tag{position:absolute;top:10px;right:10px;font-size:11px;color:var(--g);background:#000a;padding:3px 8px;border-radius:8px}
+.dir{position:absolute;bottom:10px;right:10px;font-size:12px;color:var(--c);background:#000a;padding:3px 8px;border-radius:8px}.dir:empty{display:none}
+.gear{position:absolute;top:8px;left:8px;z-index:2;width:34px;height:34px;border-radius:50%;border:1px solid var(--ln);background:#000a;font-size:17px;color:var(--c);transition:transform .5s}
+.gear:hover{transform:rotate(90deg)}
+.rad{display:none;position:absolute;left:8px;bottom:8px;width:130px;background:#000a;border-radius:10px 10px 0 0}
+body[data-pg=ctl] .radar .rad{display:block}
+.ov{display:none;position:absolute;inset:0;z-index:2;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:#02040ad8;font-weight:600}
+.off .ov{display:flex}.ov p{margin:0}.ov .btn{width:auto;padding:10px 26px;font-size:16px;color:var(--c);border-color:var(--c)}
+.sh{display:flex;align-items:center;justify-content:space-between;margin:14px 2px 8px;font-weight:800}
+.chips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;transition:opacity .3s}
+.poff .chips{opacity:.4}
+.chip{display:flex;flex-direction:column;gap:3px;padding:10px;border-radius:14px;background:var(--p);border:1px solid var(--ln);text-align:start;transition:.2s;animation:pop .5s both;animation-delay:calc(var(--i)*70ms)}
+@keyframes pop{from{opacity:0;transform:translateY(12px)}}
+.chip small{color:var(--m);font-size:11px}.chip b{color:var(--c);font-size:14px}
+.chip.on{border-color:#19e6ff88;box-shadow:0 0 12px #19e6ff22 inset}
+.sw{display:inline-block;width:46px;height:26px;border-radius:99px;background:#1a2638;position:relative;transition:.25s;flex:none}
+.sw::after{content:'';position:absolute;top:3px;right:3px;width:20px;height:20px;border-radius:50%;background:var(--m);transition:.25s}
+.sw.on{background:#0c4a5a}.sw.on::after{right:23px;background:var(--c);box-shadow:0 0 10px var(--c)}
+.crow{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.crow .btn{min-width:84px}
+.joy{position:relative;width:150px;height:150px;border-radius:50%;border:1px solid var(--ln);background:radial-gradient(circle,#0f2233,#070b12 70%);touch-action:none;flex:none;box-shadow:0 0 24px #19e6ff14}
+.joy b{position:absolute;font-size:11px;color:var(--m);font-weight:400}
+.joy .a1{top:6px;left:50%;margin-left:-6px}.joy .a2{bottom:6px;left:50%;margin-left:-6px}.joy .a3{left:8px;top:50%;margin-top:-9px}.joy .a4{right:8px;top:50%;margin-top:-9px}
+.knob{position:absolute;left:50%;top:50%;width:56px;height:56px;margin:-28px;border-radius:50%;background:radial-gradient(circle at 32% 30%,#5df0ff,#0a5670 70%);box-shadow:0 0 20px #19e6ff88;pointer-events:none}
+.knob.rel{transition:transform .2s}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.conn{border:1px solid var(--ln);background:var(--p);border-radius:16px 16px 0 0;padding:12px 14px;display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+.conn::before{content:'';position:absolute}.conn i{width:36px;height:4px;border-radius:9px;background:var(--ln)}
+.ctl{display:grid;gap:12px;grid-template-columns:1fr 1fr;grid-template-areas:"c c" "q q" "d n"}
+.ctl .cam{grid-area:c}.quick{grid-area:q}.drive{grid-area:d;justify-self:center}.neck{grid-area:n;justify-self:center;text-align:center}
+.neck small{display:block;margin-top:6px;color:var(--m);font-size:11px}
+@media(orientation:landscape) and (min-width:600px){.ctl{grid-template-columns:auto 1fr auto;grid-template-areas:"d c n" "d q n";align-items:center}.ctl .cam{max-height:44dvh;width:100%}}
+.quick{display:grid;grid-template-columns:repeat(auto-fit,minmax(84px,1fr));gap:8px}
+.quick .btn{padding:10px 6px;font-size:13px}
+.spd{grid-column:1/-1;display:flex;align-items:center;gap:10px;font-size:13px}
+.spd b{color:var(--c);min-width:34px}
+input[type=range]{accent-color:var(--c);width:100%}
+.dpad{display:grid;grid-template:repeat(3,52px)/repeat(3,52px);gap:6px;direction:ltr;touch-action:none;flex:none}
+.dpad .d{border-radius:14px;border:1px solid var(--ln);background:var(--p2);color:var(--c);font-size:18px;touch-action:none;transition:.12s}
+.dpad .d:active{background:#0c4a5a;box-shadow:0 0 16px #19e6ff88;border-color:var(--c)}
+.dpad .o{grid-area:2/2;border-radius:50%;border:1px dashed var(--ln)}
+.full{position:fixed;inset:0;z-index:5}
+.full .cam{position:absolute;inset:0;border:0;border-radius:0;aspect-ratio:auto}
+.full .gear{display:none}
+.hud{position:absolute;z-index:6}
+.top.hud{top:calc(8px + env(safe-area-inset-top));left:10px;right:10px;margin:0}
+.bl{left:calc(14px + env(safe-area-inset-left));bottom:calc(14px + env(safe-area-inset-bottom))}.br{right:calc(14px + env(safe-area-inset-right));bottom:calc(14px + env(safe-area-inset-bottom))}
+.full .dpad,.full .joy{opacity:.85}
+.bd{position:fixed;inset:0;background:#000b;opacity:0;pointer-events:none;transition:.3s;z-index:19}.bd.on{opacity:1;pointer-events:auto}
+.sheet{position:fixed;left:0;right:0;bottom:0;max-width:640px;margin:0 auto;max-height:88dvh;overflow:auto;background:#0a111c;border:1px solid var(--c);border-bottom:0;border-radius:22px 22px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom));transform:translateY(105%);transition:transform .35s cubic-bezier(.2,.9,.3,1);z-index:20;box-shadow:0 -10px 40px #19e6ff22}
+.sheet.on{transform:none}
+.sheet h3{margin:0 0 6px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 0;border-bottom:1px solid #14202f;font-size:14px}
+.row:last-child{border:0}.row .rg{width:55%}
+.seg{display:flex;gap:6px}.seg .btn{padding:7px 10px;font-size:12px}
+input[type=text],select{width:100%;direction:ltr;background:#0d1623;border:1px solid var(--ln);color:var(--t);border-radius:10px;padding:10px;font:inherit;-webkit-user-select:text;user-select:text}
+.hint{font-size:12px;color:var(--m);line-height:1.8;margin:8px 0}
+.toast{position:fixed;top:14px;left:50%;transform:translate(-50%,-90px);background:#0a1a26;border:1px solid var(--c);color:var(--t);padding:9px 18px;border-radius:99px;z-index:40;transition:.35s;font-size:13px;box-shadow:0 0 20px #19e6ff44;pointer-events:none}.toast.on{transform:translate(-50%,0)}
+body.siren::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:30;box-shadow:inset 0 0 90px var(--r);animation:sir .6s infinite alternate}
+@keyframes sir{from{opacity:.15}to{opacity:1}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
-
-<body>
-
+<body data-pg="dash">
 <div class="app">
 
-<header class="header">
-
-  <div class="logo">
-    <strong>VORTEX</strong>
-    <small>ROBOT CONTROL SYSTEM</small>
-  </div>
-
-  <div class="connection">
-    ● DEMO
-  </div>
-
-  <button class="header-btn" id="orientationBtn" title="حالت افقی">
-    ↔
-  </button>
-
-  <button class="header-btn" id="menuBtn" title="منو">
-    ⋮
-  </button>
-
-</header>
-
-
-<!-- ======================================================
-     HOME PAGE
-====================================================== -->
-
-<section class="page active" id="homePage">
-
-  <div class="home-grid">
-
-    <!-- ROBOT -->
-
-    <div class="card robot-card" id="robotCard">
-
-      <div class="robot-head">
-
-        <div>
-          <div class="robot-name">VORTEX ROBOT</div>
-          <div style="font-size:20px;font-weight:800;margin-top:4px">
-            وضعیت ربات
-          </div>
-        </div>
-
-        <div class="robot-state">
-          <span class="state-dot"></span>
-          <span id="robotStateText">خاموش</span>
-        </div>
-
-      </div>
-
-
-      <button class="power-btn" id="powerBtn">
-        ⏻
-        <small>روشن / خاموش</small>
-      </button>
-
-    </div>
-
-
-    <!-- STATUS -->
-
-    <div class="card">
-
-      <div class="card-title">
-        <h3>وضعیت سیستم</h3>
-        <span>LIVE</span>
-      </div>
-
-      <div class="status-grid">
-
-        <button class="status-item" id="tempCard">
-          <span class="status-icon">🌡️</span>
-          <small>دما</small>
-          <b class="cyan" id="tempValue">31°C</b>
-        </button>
-
-        <button class="status-item">
-          <span class="status-icon">⚙️</span>
-          <small>موتور</small>
-          <b id="motorStatus">خاموش</b>
-        </button>
-
-        <button class="status-item">
-          <span class="status-icon">🔋</span>
-          <small>شارژ</small>
-          <b class="green" id="batteryValue">82%</b>
-        </button>
-
-        <button class="status-item">
-          <span class="status-icon">🔌</span>
-          <small>وضعیت شارژ</small>
-          <b id="chargingValue">متصل نیست</b>
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <!-- LIGHT / FAN / CAMERA -->
-
-    <div class="card">
-
-      <div class="card-title">
-        <h3>امکانات ربات</h3>
-        <span>MODULES</span>
-      </div>
-
-      <div class="quick-grid">
-
-        <button class="quick toggle-quick" data-target="led">
-          <span>💡</span>
-          <small>چراغ LED</small>
-        </button>
-
-        <button class="quick toggle-quick" data-target="fan">
-          <span>🌀</span>
-          <small>فن خنک‌کننده</small>
-        </button>
-
-        <button class="quick" id="calibrateHome">
-          <span>📷</span>
-          <small>کالیبره دوربین</small>
-        </button>
-
-        <button class="quick toggle-quick" data-target="camLight">
-          <span>🔦</span>
-          <small>چراغ دوربین</small>
-        </button>
-
-        <button class="quick toggle-quick" data-target="night">
-          <span>🌙</span>
-          <small>دید در شب</small>
-        </button>
-
-        <button class="quick">
-          <span>📡</span>
-          <small>ارتباط</small>
-        </button>
-
-      </div>
-
-    </div>
-
-
-    <!-- CONTROL -->
-
+<section id="dash" class="page on">
+  <header class="top"></header>
+  <div class="dgrid">
     <div>
-
-      <div class="card" style="padding:12px">
-
-        <button class="open-control" id="openControl">
-
-          <div>
-            <strong>صفحه کنترل</strong>
-            <small>کنترل کامل حرکت و امکانات ربات</small>
-          </div>
-
-          <b>→</b>
-
-        </button>
-
+      <div class="cam" data-cam></div>
+      <div class="sh"><span>وضعیت ربات:</span><i class="sw" data-tg="power" role="switch" tabindex="0"></i></div>
+      <div class="chips">
+        <button class="chip" style="--i:0"><small>دما</small><b id="vTemp"></b></button>
+        <button class="chip" style="--i:1" data-tg="motor"><small>موتور</small><b id="vMotor"></b></button>
+        <button class="chip" style="--i:2"><small>وضعیت شارژ</small><b id="vChg"></b></button>
+        <button class="chip" style="--i:3"><small>درصد شارژ</small><b id="vBat"></b></button>
+        <button class="chip" style="--i:4" data-tg="led"><small>نور و چراغ</small><b id="vLed"></b></button>
+        <button class="chip" style="--i:5" data-tg="fan"><small>فن خنک‌کننده</small><b id="vFan"></b></button>
       </div>
-
     </div>
-
+    <div class="colB">
+      <div class="crow">
+        <button class="btn" data-cal>کالیبره</button>
+        <div data-joy></div>
+        <button class="btn red" data-tg="siren">آژیر</button>
+      </div>
+      <button class="btn big go" data-go="ctl">صفحه کنترل</button>
+      <div class="two"><button class="btn" data-tg="lamp">چراغ</button><button class="btn" data-tg="night">دید در شب</button></div>
+      <button class="conn" data-open="conn"><span>ارتباط: <b id="connTxt"></b></span><i></i></button>
+    </div>
   </div>
-
 </section>
 
-
-<!-- ======================================================
-     CONTROL PAGE
-====================================================== -->
-
-<section class="page" id="controlPage">
-
-  <div class="control-layout">
-
-    <!-- MOVEMENT -->
-
-    <div class="card movement-card">
-
-      <div class="card-title" style="padding:0">
-        <h3>کنترل حرکت</h3>
-        <span id="speedText">سرعت 50%</span>
-      </div>
-
-      <div class="movement-area">
-
-        <div class="dpad">
-
-          <button class="move up" data-command="forward">▲</button>
-          <button class="move left" data-command="left">◀</button>
-          <button class="move stop" data-command="stop">■</button>
-          <button class="move right" data-command="right">▶</button>
-          <button class="move down" data-command="back">▼</button>
-
-        </div>
-
-      </div>
-
-
-      <!-- CAMERA NECK -->
-
-      <div class="card-title" style="padding:0 0 8px">
-        <h3>گردن دوربین</h3>
-        <span id="cameraAngle">0°</span>
-      </div>
-
-      <div class="neck">
-
-        <button data-neck="left">←</button>
-        <button data-neck="center">●</button>
-        <button data-neck="right">→</button>
-
-      </div>
-
+<section id="ctl" class="page">
+  <header class="top" data-title="کنترل" data-back></header>
+  <div class="ctl">
+    <div class="cam" data-cam></div>
+    <div class="quick">
+      <button class="btn" data-hold="horn">بوق</button>
+      <button class="btn" data-tg="auto">حالت خودکار</button>
+      <button class="btn" data-tg="sensor">سنسور فاصله</button>
+      <button class="btn" data-tg="radar">رادار</button>
+      <button class="btn" data-tg="lamp">چراغ</button>
+      <button class="btn" data-go="cam">دوربین تمام‌صفحه</button>
+      <label class="spd">سرعت <input type="range" id="spdR" min="10" max="100"><b id="vSpd"></b></label>
     </div>
+    <div class="drive"><div data-dp></div></div>
+    <div class="neck"><div data-joy></div><small>گردن دوربین · <span class="pt"></span></small></div>
+  </div>
+</section>
 
+<section id="cam" class="page full">
+  <div class="cam" data-cam></div>
+  <header class="top hud" data-title="دوربین" data-back></header>
+  <div class="hud bl" data-dp></div>
+  <div class="hud br" data-joy></div>
+</section>
 
-    <!-- OPTIONS -->
+</div>
 
-    <div class="card">
+<div class="bd"></div>
 
-      <div class="card-title">
-        <h3>کنترل‌های سریع</h3>
-        <span>CONTROL</span>
-      </div>
+<div class="sheet" id="menu">
+  <h3>تنظیمات و امکانات</h3>
+  <div class="row"><span>صفحه‌ها</span><div class="seg"><button class="btn" data-go="dash">داشبورد</button><button class="btn" data-go="ctl">کنترل</button><button class="btn" data-go="cam">دوربین</button></div></div>
+  <div class="row"><span>روشنایی LED <b id="vLedL"></b></span><input class="rg" type="range" id="ledR" min="0" max="100"></div>
+  <div class="row"><span>فن خنک‌کننده</span><i class="sw" data-tg="fan"></i></div>
+  <div class="row"><span>دید در شب</span><i class="sw" data-tg="night"></i></div>
+  <div class="row"><span>سنسور فاصله</span><i class="sw" data-tg="sensor"></i></div>
+  <div class="row"><span>حالت خودکار</span><i class="sw" data-tg="auto"></i></div>
+  <div class="row"><span>معکوس کردن جهت موتورها</span><i class="sw" data-tg="invert"></i></div>
+  <div class="row"><span>اتصال به ربات</span><button class="btn" data-open="conn">تنظیم</button></div>
+</div>
 
-      <div class="options">
+<div class="sheet" id="camset">
+  <h3>تنظیمات دوربین</h3>
+  <div class="row"><span>آینه کردن تصویر</span><i class="sw" data-tg="mirror"></i></div>
+  <div class="row"><span>چرخش ۱۸۰ درجه</span><i class="sw" data-tg="flip"></i></div>
+  <div class="row"><span>چراغ دوربین</span><i class="sw" data-tg="lamp"></i></div>
+  <div class="row"><span>دید در شب</span><i class="sw" data-tg="night"></i></div>
+  <div class="row"><span>رزولوشن</span><select class="rg" id="resS"><option value="qvga">QVGA ۳۲۰×۲۴۰</option><option value="vga" selected>VGA ۶۴۰×۴۸۰</option><option value="svga">SVGA ۸۰۰×۶۰۰</option></select></div>
+</div>
 
-        <!-- BEEP -->
+<div class="sheet" id="conn">
+  <h3>ارتباط با ربات</h3>
+  <p class="hint">آدرس IP ربات (ESP32) را وارد کنید. ارتباط از طریق WebSocket روی مسیر <b dir="ltr">/ws</b> برقرار می‌شود.</p>
+  <input type="text" id="ipI" placeholder="192.168.4.1" inputmode="decimal" autocomplete="off">
+  <p class="hint" style="margin-bottom:4px">آدرس تصویر دوربین (اختیاری)</p>
+  <input type="text" id="camI" placeholder="http://192.168.4.2:81/stream" autocomplete="off">
+  <p class="hint">توجه: در GitHub Pages (https) مرورگر اتصال ws:// را مسدود می‌کند. برای کنترل واقعی، فایل را از خود ESP32 یا یک آدرس http باز کنید.</p>
+  <div class="two"><button class="btn on" id="bConn">اتصال</button><button class="btn" id="bDemo">حالت آزمایشی</button></div>
+</div>
 
-        <div class="action-row">
+<div class="toast" id="toast"></div>
 
-          <button class="action-btn" id="beepBtn">
-            🔊
-            <br>
-            <small>بوق</small>
-          </button>
+<script>
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const fa=n=>Number(n).toLocaleString('fa-IR',{maximumFractionDigits:0,useGrouping:false});
+const S={power:true,cam:false,led:false,fan:false,motor:true,lamp:false,night:false,auto:false,sensor:true,radar:false,siren:false,mirror:false,flip:false,invert:false,speed:60,ledLvl:100,bat:87,temp:34,charging:false,dist:120,pan:90,tilt:90,link:false,ip:'',camUrl:''};
+try{S.ip=localStorage.getItem('vx_ip')||'';S.camUrl=localStorage.getItem('vx_cam')||''}catch(e){}
+let ws=null;
+const NM={power:'ربات',cam:'دوربین',led:'نور ربات',fan:'فن',motor:'موتورها',lamp:'چراغ دوربین',night:'دید در شب',auto:'حالت خودکار',sensor:'سنسور فاصله',radar:'رادار',siren:'آژیر',mirror:'آینه',flip:'چرخش تصویر',invert:'معکوس موتورها'};
+const DN={f:'▲ جلو',b:'▼ عقب',l:'◀ چرخش چپ',r:'▶ چرخش راست',s:''};
 
-          <button class="action-btn" id="autoBtn">
-            🤖
-            <br>
-            <small>حالت خودکار</small>
-          </button>
+function send(o){if(ws&&ws.readyState===1)ws.send(JSON.stringify(o))}
+let tt;function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('on'),1800)}
 
-        </div>
+/* ---------- build UI pieces ---------- */
+const CAM='<div class="vw"><div class="scene"></div><img alt="" hidden></div><div class="scan"></div><i class="xh"></i><button class="gear" data-open="camset" aria-label="تنظیمات دوربین">⚙</button><span class="tag"></span><span class="dir"></span><canvas class="rad" width="160" height="90"></canvas><div class="ov"><p>دوربین خاموش است</p><button class="btn" data-tg="cam">روشن کردن</button></div>';
+$$('[data-cam]').forEach(e=>e.innerHTML=CAM);
+$$('[data-dp]').forEach(e=>{e.classList.add('dpad');e.innerHTML='<button class="d" style="grid-area:1/2" data-m="f" aria-label="جلو">▲</button><button class="d" style="grid-area:2/1" data-m="l" aria-label="چپ">◀</button><i class="o"></i><button class="d" style="grid-area:2/3" data-m="r" aria-label="راست">▶</button><button class="d" style="grid-area:3/2" data-m="b" aria-label="عقب">▼</button>'});
+$$('[data-joy]').forEach(e=>{e.classList.add('joy');e.innerHTML='<b class="a1">▲</b><b class="a2">▼</b><b class="a3">◀</b><b class="a4">▶</b><i class="knob rel"></i>'});
+$$('.top').forEach(h=>{const t=h.dataset.title;h.innerHTML=(h.hasAttribute('data-back')?'<button class="ib" data-go="dash" aria-label="بازگشت">→</button>':'')+(t?'<h1>'+t+'</h1>':'<h1 class="logo">VORTEX</h1>')+'<span class="sp"></span><span class="pill"><i class="bi"></i><b class="bt"></b></span><span class="pill wf"></span><button class="ib" data-open="menu" aria-label="منو"><u></u></button>'});
 
-
-        <!-- SPEED -->
-
-        <div class="speed-box">
-
-          <div class="speed-head">
-            <b>سرعت موتور</b>
-            <span id="speedNumber">50%</span>
-          </div>
-
-          <input
-            id="speedSlider"
-            type="range"
-            min="0"
-            max="100"
-            value="50"
-          >
-
-        </div>
-
-
-        <!-- DISTANCE SENSOR -->
-
-        <div class="option">
-
-          <div class="option-info">
-
-            <div class="option-icon">
-              📡
-            </div>
-
-            <div>
-              <b>سنسور فاصله</b>
-              <small>Ultrasonic</small>
-            </div>
-
-          </div>
-
-          <label class="switch">
-            <input id="distanceSwitch" type="checkbox" checked>
-            <span class="slider"></span>
-          </label>
-
-        </div>
-
-
-        <!-- LED -->
-
-        <div class="option">
-
-          <div class="option-info">
-
-            <div class="option-icon">
-              💡
-            </div>
-
- 
+/* ---------- state -> UI ---------- */
+function ui(){
+  const r=document.documentElement.style;
+  r.setProperty('--b',Math.round(S.bat));r.setProperty('--px',(90-S.pan)*3);r.setProperty('--py',(S.tilt-90)*3);
+  document.body.classList.toggle('poff',!S.power);document.body.classList.toggle('siren',S.siren);
+  $$('[data-tg]').forEach(e=>e.classList.toggle('on',!!S[e.dataset.tg]));
+  const src=S.cam&&S.link?(S.camUrl||'http://'+S.ip+':81/stream'):'';
+  $$('.cam').forEach(c=>{
+    ['night','lamp','mirror','flip','radar'].forEach(k=>c.classList.toggle(k,!!S[k]));
+    c.classList.toggle('off',!S.cam);
+    const im=$('img',c);
+    if(src){if(im.getAttribute('src')!==src)im.src=src;im.hidden=false}else{im.removeAttribute('src');im.hidden=true}
+    $('.tag',c).textContent=S.link?'● زنده':'● نمایش
